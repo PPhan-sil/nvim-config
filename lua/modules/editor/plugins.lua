@@ -6,14 +6,6 @@ editor["RRethy/vim-illuminate"] = {
 	event = "BufReadPost",
 	config = conf.illuminate,
 }
-editor["terrortylor/nvim-comment"] = {
-	opt = false,
-	config = conf.Comment,
-}
-editor["numToStr/Comment.nvim"] = {
-	opt = false,
-	config = conf.Comment,
-}
 editor["nvim-treesitter/nvim-treesitter"] = {
 	opt = true,
 	run = ":TSUpdate",
@@ -95,6 +87,17 @@ editor["rcarriga/nvim-dap-ui"] = {
 editor["sindrets/diffview.nvim"] = {
 	opt = true,
 	cmd = { "DiffviewOpen", "DiffviewClose" },
+}
+
+editor["simrat39/symbols-outline.nvim"] = {
+	opt = true,
+	event = "UIEnter",
+	config = conf.symbolsOutline,
+}
+editor["numToStr/Comment.nvim"] = {
+	opt = true,
+	event = "UIEnter",
+	config = conf.comment,
 }
 
 return editor

@@ -103,7 +103,7 @@ function config.illuminate()
 	})
 end
 
-function config.Comment()
+function config.comment()
 	require("Comment").setup()
 end
 
@@ -438,6 +438,10 @@ function config.better_escape()
 		--   return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
 		-- end,
 	})
+end
+
+function config.symbolsOutline()
+	require("symbols-outline").setup()
 end
 
 return config
