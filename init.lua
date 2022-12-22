@@ -1,3 +1,3 @@
-require "user.init"
-require "user.keymap"
-require "user.packer"
+if not vim.g.vscode then
+	require("core")
+end
