@@ -74,12 +74,6 @@ local plug_map = {
 	["n|<Leader>sf"] = map_cu("Telescope find_files"):with_noremap():with_silent(),
 	["n|<Leader>sc"] = map_cu("Telescope colorscheme"):with_noremap():with_silent(),
 	["n|<Leader>sg"] = map_cu("Telescope git_files"):with_noremap():with_silent(),
-	-- Plugin accelerate-jk
-	-- ["n|j"] = map_cmd("v:lua.enhance_jk_move('j')"):with_silent():with_expr(),
-	-- ["n|k"] = map_cmd("v:lua.enhance_jk_move('k')"):with_silent():with_expr(),
-	-- Plugin vim-eft
-	-- ["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
-	-- ["n|,"] = map_cmd("v:lua.enhance_ft_move(',')"):with_expr(),
 	-- Plugin MarkdownPreview
 	["n|<F12>"] = map_cr("MarkdownPreviewToggle"):with_noremap():with_silent(),
 	-- Plugin auto_session
@@ -111,6 +105,9 @@ local plug_map = {
 	-- Plugin Diffview
 	["n|<leader>D"] = map_cr("DiffviewOpen"):with_silent():with_noremap(),
 	["n|<leader><leader>D"] = map_cr("DiffviewClose"):with_silent():with_noremap(),
+	-- Plugin Comment
+	["n|<leader>/"] = map_cmd("gcc"),
+	["v|<leader>/"] = map_cmd("gc"),
 }
 
 bind.nvim_load_mapping(plug_map)
