@@ -73,6 +73,7 @@ local plug_map = {
 	["n|<Leader>sp"] = map_cu("Telescope projects"):with_noremap():with_silent(),
 	["n|<Leader>sf"] = map_cu("Telescope find_files"):with_noremap():with_silent(),
 	["n|<Leader>sc"] = map_cu("Telescope colorscheme"):with_noremap():with_silent(),
+	["n|<Leader>sb"] = map_cu("Telescope buffers"):with_noremap():with_silent(),
 	["n|<Leader>sg"] = map_cu("Telescope git_files"):with_noremap():with_silent(),
 	-- Plugin MarkdownPreview
 	["n|<F12>"] = map_cr("MarkdownPreviewToggle"):with_noremap():with_silent(),
@@ -108,6 +109,22 @@ local plug_map = {
 	-- Plugin Comment
 	["n|<leader>/"] = map_cmd("gcc"),
 	["v|<leader>/"] = map_cmd("gc"),
+	-- Alpha
+	["n|<leader>a"] = map_cr("Alpha"):with_silent():with_noremap(),
+	-- ZenMode
+	["n|<leader>z"] = map_cr("ZenMode"):with_silent():with_noremap(),
+	-- SymbolsOutline
+	["n|<leader>o"] = map_cr("SymbolsOutline"):with_silent():with_noremap(),
+	-- Vimtex
+	["n|<leader>\\l"] = map_cr("VimtexCompile"):with_silent():with_noremap(),
+	-- Make
+	["n|<leader>\\\\"] = map_cr("make"):with_silent():with_noremap(),
+	["n|<leader>\\r"] = map_cr("make run"):with_silent():with_noremap(),
+	["n|<leader>t"] = map_cr(
+			"hi Normal ctermbg=none guibg=none | hi SignColumn ctermbg=none guibg=none | hi NormalNC ctermbg=none guibg=none | hi MsgArea ctermbg=none guibg=none | hi TelescopeBorder ctermbg=none guibg=none | hi NvimTreeNormal ctermbg=none guibg=none | let &fcs='eob: "
+		)
+		:with_silent()
+		:with_noremap(),
 }
 
 bind.nvim_load_mapping(plug_map)
