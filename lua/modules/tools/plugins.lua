@@ -46,7 +46,7 @@ tools["folke/trouble.nvim"] = {
 	cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
 	config = conf.trouble,
 }
-tools["dstein64/vim-startuptime"] = { opt = true, cmd = "StartupTime" }
+-- tools["dstein64/vim-startuptime"] = { opt = true, cmd = "StartupTime" }
 -- Please don't remove which-key.nvim otherwise you need to set timeoutlen=300 at `lua/core/options.lua`
 tools["folke/which-key.nvim"] = {
 	opt = false,

@@ -571,8 +571,6 @@ function config.nvim_tree()
 		view = {
 			adaptive_size = false,
 			centralize_selection = false,
-			width = 80,
-			height = 100,
 			side = "left",
 			preserve_window_proportions = false,
 			number = false,
