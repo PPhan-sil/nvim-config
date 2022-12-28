@@ -12,8 +12,6 @@ function config.nvim_treesitter()
 			"c",
 			"cpp",
 			"css",
-			"go",
-			"gomod",
 			"html",
 			"java",
 			"javascript",
@@ -24,7 +22,6 @@ function config.nvim_treesitter()
 			"python",
 			"rust",
 			"typescript",
-			"vue",
 			"yaml",
 		},
 		highlight = {
