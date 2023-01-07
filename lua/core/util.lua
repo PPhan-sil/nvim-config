@@ -70,7 +70,7 @@ function M.float_term(cmd, opts)
       margin = { top = 0, right = 0, bottom = 0, left = 0 },
     },
   }, opts or {})
-  require("lazy.util").open_cmd(cmd, opts)
+  require("lazy.util").float_term(cmd, opts)
 end
 
 ---@param silent boolean?
