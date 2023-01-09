@@ -94,6 +94,12 @@ local function load_options()
     conceallevel = 0,
     concealcursor = "niv",
     colorcolumn = "100",
+
+    -- Future column ui
+    foldcolumn = "2",
+    foldlevel = 99,
+    fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
+    -- statuscolumn = "%=%l%s%C",
   }
   local function isempty(s)
     return s == nil or s == ""
