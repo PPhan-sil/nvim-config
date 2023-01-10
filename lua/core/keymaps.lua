@@ -27,6 +27,7 @@ vim.keymap.set("n", "<leader>\\r", "<cmd>make run<cr>", { desc = "Make & Run" })
 -- Markdown Preview
 vim.keymap.set("n", "<leader>\\m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown" })
 -- Telescope
+vim.keymap.set("n", "<leader>sr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
 vim.keymap.set("n", "<leader>sp", "<cmd>Telescope projects<cr>", { desc = "Projects" })
 vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
 vim.keymap.set(
