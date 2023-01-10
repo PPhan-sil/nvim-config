@@ -51,12 +51,14 @@ return {
   {
     "stevearc/dressing.nvim",
     init = function()
+      ---@diagnostic disable-next-line: different-requires
+      local lazy = require("lazy")
       vim.ui.select = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
+        lazy.load({ plugins = { "dressing.nvim" } })
         return vim.ui.select(...)
       end
       vim.ui.input = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
+        lazy.load({ plugins = { "dressing.nvim" } })
         return vim.ui.input(...)
       end
     end,

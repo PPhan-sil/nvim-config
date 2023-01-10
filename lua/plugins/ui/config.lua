@@ -267,7 +267,7 @@ function config.nvimtree()
     },
     diagnostics = {
       enable = true,
-      show_on_dirs = false,
+      show_on_dirs = true,
       debounce_delay = 50,
       icons = {
         hint = icons.diagnostics.Hint_alt,
