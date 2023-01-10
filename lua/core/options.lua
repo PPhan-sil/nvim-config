@@ -96,9 +96,9 @@ local function load_options()
     colorcolumn = "100",
 
     -- Future column ui
-    foldcolumn = "2",
-    foldlevel = 99,
-    fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
+    -- foldcolumn = "1",
+    -- foldlevel = 99,
+    -- fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
     -- statuscolumn = "%=%l%s%C",
   }
   local function isempty(s)
