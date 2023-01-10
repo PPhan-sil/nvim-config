@@ -233,7 +233,7 @@ function config.whichkey()
     g = { name = "Git" },
     l = { name = "LSP" },
     s = { name = "Search" },
-    t = { name = "Toggle" },
+    r = { name = "Toggle" },
     ["\\"] = { name = "Compile" },
   }, { prefix = "<leader>" })
 end
