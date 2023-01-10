@@ -22,8 +22,8 @@ vim.keymap.set("n", "<leader>o", "<cmd>SymbolsOutline<cr>", { desc = "Symbols Ou
 -- Vimtex
 vim.keymap.set("n", "<leader>\\l", "<cmd>VimtexCompile<cr>", { desc = "Latex" })
 -- Make
-vim.keymap.set("n", "<leader>\\\\", "<cmd>make<cr>", { desc = "Latex" })
-vim.keymap.set("n", "<leader>\\r", "<cmd>make run<cr>", { desc = "Latex" })
+vim.keymap.set("n", "<leader>\\\\", "<cmd>make<cr>", { desc = "Make" })
+vim.keymap.set("n", "<leader>\\r", "<cmd>make run<cr>", { desc = "Make & Run" })
 -- Markdown Preview
 vim.keymap.set("n", "<leader>\\m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown" })
 -- Telescope
@@ -86,10 +86,12 @@ end, { desc = "Lazygit" })
 vim.keymap.set("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Diagnostic prev" })
 vim.keymap.set("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Diagnostic next" })
 vim.keymap.set("n", "gf", "<cmd>Lspsaga rename<cr>", { desc = "Find and replace" })
--- vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "Signature" })
-vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>", { desc = "Preview" })
+vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "Signature" })
 vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<cr>", { desc = "Code Action" })
 vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<cr>", { desc = "Peek" })
 vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to definition" })
 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References" })
 -- ["n|gh"] = map_cr("Lspsaga lsp_finder"):with_noremap():with_silent(),
+
+-- Trouble
+vim.keymap.set("n", "<leader>x", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Diagnostics" })
