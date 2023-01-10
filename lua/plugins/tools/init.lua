@@ -25,9 +25,6 @@ return {
     config = conf.project,
   },
   {
-    "nvim-telescope/telescope-fzf-native.nvim",
-  },
-  {
     "nvim-telescope/telescope-frecency.nvim",
   },
   {
@@ -53,6 +50,16 @@ return {
   },
   {
     "stevearc/dressing.nvim",
+    init = function()
+      vim.ui.select = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.select(...)
+      end
+      vim.ui.input = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.input(...)
+      end
+    end,
     config = conf.dressing,
   },
   {
