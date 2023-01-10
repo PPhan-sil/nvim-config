@@ -167,7 +167,11 @@ function config.cmp()
     },
     -- You should specify your *installed* sources.
     sources = {
-      { name = "nvim_lsp" },
+      {
+        name = "nvim_lsp",
+        keyword_length = 2,
+        max_item_counts = 32,
+      },
       { name = "nvim_lua" },
       { name = "luasnip" },
       { name = "path" },
