@@ -1,5 +1,11 @@
 local util = require("core.util")
 
+-- better up/down
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("v", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("v", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
 -- Plugin Comment
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
 vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
@@ -32,23 +38,22 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>sc", "<cmd>Telescope colorscheme<cr>", { desc = "Colorscheme" })
 vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 vim.keymap.set("n", "<leader>sg", "<cmd>Telescope git_files<cr>", { desc = "Git files" })
-vim.keymap.set("n", "<leader>sl", "<cmd>Telescope lsp_references<cr>", { desc = "Git files" })
 vim.keymap.set("n", "<leader>go", "<cmd>Telescope git_status<cr>", { desc = "Git status" })
 vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Checkout branch" })
 vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Checkout commit" })
 -- Nvimtree
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 -- ToggleTerm
-vim.keymap.set({ "n", "t" }, "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
+vim.keymap.set({ "n", "t" }, "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 -- Other toggles
-vim.keymap.set("n", "<leader>tf", require("plugins.lsp.formatting").toggle, { desc = "Format on Save" })
-vim.keymap.set("n", "<leader>ts", function()
+vim.keymap.set("n", "<leader>rf", require("plugins.lsp.formatting").toggle, { desc = "Format on Save" })
+vim.keymap.set("n", "<leader>rs", function()
   util.toggle("spell")
 end, { desc = "Spelling" })
-vim.keymap.set("n", "<leader>tw", function()
+vim.keymap.set("n", "<leader>rw", function()
   util.toggle("wrap")
 end, { desc = "Word Wrap" })
-vim.keymap.set("n", "<leader>tn", function()
+vim.keymap.set("n", "<leader>rn", function()
   util.toggle("relativenumber", true)
   util.toggle("number")
 end, { desc = "Line Numbers" })
@@ -78,14 +83,13 @@ vim.keymap.set("n", "<leader>gg", function()
 end, { desc = "Lazygit" })
 
 -- LSP
-vim.keymap.set("n", "go", "<cmd>Telescope git_status<cr>", { desc = "Outline" })
 vim.keymap.set("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Diagnostic prev" })
 vim.keymap.set("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Diagnostic next" })
-vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "Signature" })
-vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<cr>", { desc = "Rename" })
-vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>")
-vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<cr>")
-vim.keymap.set("v", "ga", "<cmd>Lspsaga code_action<cr>")
-vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<cr>")
-vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gf", "<cmd>Lspsaga rename<cr>", { desc = "Find and replace" })
+-- vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "Signature" })
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>", { desc = "Preview" })
+vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<cr>", { desc = "Code Action" })
+vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<cr>", { desc = "Peek" })
+vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to definition" })
+vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References" })
 -- ["n|gh"] = map_cr("Lspsaga lsp_finder"):with_noremap():with_silent(),
