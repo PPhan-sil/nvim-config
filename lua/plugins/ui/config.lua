@@ -693,4 +693,10 @@ function config.bufferline()
   require("bufferline").setup(opts)
 end
 
+function config.fidget()
+  require("fidget").setup({
+    window = { blend = 0 },
+  })
+end
+
 return config

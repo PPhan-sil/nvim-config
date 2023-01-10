@@ -99,4 +99,9 @@ return {
       require("scrollview").setup({})
     end,
   },
+  {
+    "j-hui/fidget.nvim",
+    event = "BufReadPost",
+    config = conf.fidget,
+  },
 }
