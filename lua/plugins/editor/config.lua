@@ -71,8 +71,11 @@ function config.treesitter()
       "latex",
       "lua",
       "make",
+      "markdown",
+      "markdown_inline",
       "python",
       "rust",
+      "tsx",
       "typescript",
       "yaml",
     },
@@ -441,6 +444,12 @@ function config.ufo()
     provider_selector = function(bufnr, filetype, buftype)
       return { "treesitter", "indent" }
     end,
+  })
+end
+
+function config.documentColor()
+  require("document-color").setup({
+    mode = "background",
   })
 end
 

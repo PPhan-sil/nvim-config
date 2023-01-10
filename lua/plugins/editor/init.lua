@@ -109,4 +109,13 @@ return {
     dependencies = { "kevinhwang91/promise-async" },
     config = conf.ufo,
   },
+  {
+    "mrshmllow/document-color.nvim",
+    ft = {
+      "typescriptreact",
+      "javacriptreact",
+      "astro",
+    },
+    config = conf.documentColor,
+  },
 }
