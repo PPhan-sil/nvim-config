@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.scriptencoding = "utf-8"
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
 
 -- fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
