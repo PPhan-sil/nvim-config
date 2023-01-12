@@ -41,7 +41,11 @@ function config.null_ls()
 end
 
 function config.mason(plugin)
-  require("mason").setup()
+  require("mason").setup({
+    ui = {
+      border = "rounded",
+    },
+  })
   local mr = require("mason-registry")
   for _, tool in ipairs(plugin.ensure_installed) do
     local p = mr.get_package(tool)

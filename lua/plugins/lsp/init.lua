@@ -24,7 +24,6 @@ return {
 
     "williamboman/mason.nvim",
     cmd = "Mason",
-    keys = { { "<cmd>Mason<cr>", desc = "Mason" } },
     ensure_installed = {
       "stylua",
       "shellcheck",
@@ -40,38 +39,17 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
+        local luasnip = require("luasnip")
+        luasnip.filetype_extend("javascript", { "html" })
+        luasnip.filetype_extend("javascriptreact", { "html" })
+        luasnip.filetype_extend("typescriptreact", { "html" })
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
     config = {
       history = true,
-      delete_check_events = "TextChanged",
-    },
-    keys = {
-      {
-        "<tab>",
-        function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-        end,
-        expr = true,
-        remap = true,
-        silent = true,
-        mode = "i",
-      },
-      {
-        "<tab>",
-        function()
-          require("luasnip").jump(1)
-        end,
-        mode = "s",
-      },
-      {
-        "<s-tab>",
-        function()
-          require("luasnip").jump(-1)
-        end,
-        mode = { "i", "s" },
-      },
+      updateevents = "TextChanged,TextChangedI",
+      delete_check_events = "TextChanged,InsertLeave",
     },
   },
 
