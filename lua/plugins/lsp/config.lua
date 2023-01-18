@@ -232,7 +232,7 @@ function config.lspsaga()
 
   local colors = get_palette()
 
-  require("lspsaga").init_lsp_saga({
+  require("lspsaga").setup({
     diagnostic_header = {
       icons.diagnostics.Error_alt,
       icons.diagnostics.Warning_alt,
