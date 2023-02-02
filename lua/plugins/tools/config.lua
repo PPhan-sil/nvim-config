@@ -242,10 +242,12 @@ function config.dressing()
   require("dressing").setup({
     input = {
       enabled = true,
+      relative = "editor",
+      prefer_width = 100,
     },
     select = {
       enabled = true,
-      backend = "telescope",
+      backend = { "telescope" },
       trim_prompt = true,
     },
   })
