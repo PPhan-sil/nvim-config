@@ -167,7 +167,7 @@ function config.nvimtree()
           height = height,
           row = (gheight - height) * 0.45,
           -- col = (gwidth - width) * 0.50,
-          col = 18,
+          col = 13,
         },
       },
     },
