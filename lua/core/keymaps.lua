@@ -6,6 +6,9 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("v", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("v", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
+-- Folds
+vim.keymap.set("n", "<leader>f", "za")
+
 -- Plugin Comment
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
 vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Comment" })

@@ -441,9 +441,20 @@ end
 
 function config.ufo()
   require("ufo").setup({
+    open_fold_hl_timeout = 0,
     provider_selector = function(bufnr, filetype, buftype)
       return { "treesitter", "indent" }
     end,
+  })
+end
+
+function config.statuscol()
+  require("statuscol").setup({
+    separator = " ",
+    relculright = true,
+    foldfunc = "builtin",
+    setopt = true,
+    order = "NSFs",
   })
 end
 

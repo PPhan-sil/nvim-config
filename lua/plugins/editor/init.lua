@@ -106,7 +106,10 @@ return {
   {
     "kevinhwang91/nvim-ufo",
     event = "BufReadPost",
-    dependencies = { "kevinhwang91/promise-async" },
+    dependencies = {
+      "kevinhwang91/promise-async",
+      { "luukvbaal/statuscol.nvim", config = conf.statuscol },
+    },
     config = conf.ufo,
   },
   {

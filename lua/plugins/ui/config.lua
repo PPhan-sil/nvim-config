@@ -342,7 +342,12 @@ function config.catppuccin()
       operators = { "bold" },
     },
     color_overrides = {},
-    custom_highlights = {},
+    custom_highlights = function(colors)
+      return {
+        Folded = { fg = "None", bg = colors.mantle },
+      }
+    end,
+    highlight_overrides = {},
     integrations = {
       cmp = true,
       gitsigns = true,
@@ -689,7 +694,7 @@ function config.bufferline()
       highlights = require("catppuccin.groups.integrations.bufferline").get({
         styles = { "italic", "bold" },
         custom = {
-          mocha = {
+          frappe = {
             -- Hint
             hint = { fg = cp.rosewater },
             hint_visible = { fg = cp.rosewater },

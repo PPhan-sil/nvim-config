@@ -7,8 +7,6 @@ vim.opt.fileencoding = "utf-8"
 -- fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
-require("core.statusCol")
-
 local function load_options()
   local global_local = {
     termguicolors = true,
@@ -103,8 +101,8 @@ local function load_options()
 
     -- Future column ui
     fillchars = [[fold: ,foldopen:,foldsep: ,foldclose:]],
-    -- foldcolumn = "1",
-    foldenable = false,
+    foldcolumn = "1",
+    foldenable = true,
     foldlevel = 99,
     foldmethod = "indent",
     -- foldlevel = 99,
