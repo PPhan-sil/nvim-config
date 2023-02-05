@@ -63,7 +63,6 @@ return {
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
-      "andersevenrud/cmp-tmux",
       "hrsh7th/cmp-path",
       "f3fora/cmp-spell",
       "hrsh7th/cmp-buffer",
