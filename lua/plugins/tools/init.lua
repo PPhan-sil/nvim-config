@@ -22,13 +22,7 @@ return {
     config = conf.project,
   },
   {
-    "nvim-telescope/telescope-frecency.nvim",
-  },
-  {
     "kkharji/sqlite.lua",
-  },
-  {
-    "nvim-telescope/telescope-live-grep-args.nvim",
   },
   {
     "michaelb/sniprun",
