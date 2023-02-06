@@ -4,9 +4,6 @@ return {
     "nvim-lua/plenary.nvim",
   },
   {
-    "debugloop/telescope-undo.nvim",
-  },
-  {
     "nvim-telescope/telescope-frecency.nvim",
   },
   {
