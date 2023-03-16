@@ -449,12 +449,19 @@ function config.ufo()
 end
 
 function config.statuscol()
+  local builtin = require("statuscol.builtin")
   require("statuscol").setup({
-    separator = " ",
+    thousands = false,
     relculright = true,
-    foldfunc = "builtin",
-    setopt = true,
-    order = "NSFs",
+    segments = {
+      { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+      { text = { "%s" }, click = "v:lua.ScSa" },
+      {
+        text = { builtin.foldfunc, " " },
+        condition = { true, builtin.not_empty },
+        click = "v:lua.ScFa",
+      },
+    },
   })
 end
 
