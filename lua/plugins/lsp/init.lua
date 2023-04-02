@@ -28,7 +28,7 @@ return {
       "stylua",
       "shellcheck",
       "shfmt",
-      "flake8",
+      -- "flake8",
     },
     config = conf.mason,
   },
