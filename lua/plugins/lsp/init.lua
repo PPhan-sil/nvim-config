@@ -6,7 +6,7 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      { "williamboman/mason-lspconfig.nvim", config = { automatic_installation = true } },
+      { "williamboman/mason-lspconfig.nvim", opts = { automatic_installation = true } },
     },
     servers = nil,
     config = conf.lspconfig,
@@ -24,13 +24,7 @@ return {
 
     "williamboman/mason.nvim",
     cmd = "Mason",
-    ensure_installed = {
-      "stylua",
-      "shellcheck",
-      "shfmt",
-      -- "flake8",
-    },
-    config = conf.mason,
+    opts = conf.mason,
   },
 
   -- snippets
@@ -46,7 +40,7 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
-    config = {
+    opts = {
       history = true,
       updateevents = "TextChanged,TextChangedI",
       delete_check_events = "TextChanged,InsertLeave",
