@@ -20,8 +20,8 @@ function config.lspconfig(plugin)
   })
 
   -- lspconfig
-  local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  --
   local servers = plugin.servers or require("plugins.lsp.servers")
   for server, opts in pairs(servers) do
     opts.capabilities = capabilities
@@ -46,13 +46,13 @@ function config.mason(plugin)
       border = "rounded",
     },
   })
-  local mr = require("mason-registry")
-  for _, tool in ipairs(plugin.ensure_installed) do
-    local p = mr.get_package(tool)
-    if not p:is_installed() then
-      p:install()
-    end
-  end
+  -- local mr = require("mason-registry")
+  -- for _, tool in ipairs(plugin.ensure_installed) do
+  --   local p = mr.get_package(tool)
+  --   if not p:is_installed() then
+  --     p:install()
+  --   end
+  -- end
 end
 
 function config.cmp()
@@ -148,8 +148,8 @@ function config.cmp()
           cmp.select_next_item()
         elseif require("luasnip").expand_or_jumpable() then
           vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
-        -- elseif has_words_before() then
-        --   cmp.complete()
+          -- elseif has_words_before() then
+          --   cmp.complete()
         else
           fallback()
         end
