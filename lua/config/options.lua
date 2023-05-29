@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
@@ -68,7 +67,7 @@ opt.autoindent = true
 opt.softtabstop = 2
 opt.linebreak = true
 opt.concealcursor = "niv"
-opt.colorcolumn = "100"
+opt.colorcolumn = "120"
 opt.fillchars = { fold = " ", foldopen = "", foldsep = " ", foldclose = "" }
 opt.foldcolumn = "1"
 opt.foldenable = true
