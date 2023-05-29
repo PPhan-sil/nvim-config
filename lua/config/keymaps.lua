@@ -134,8 +134,7 @@ map("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
 map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
--- tabs
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+-- tabs map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
@@ -143,7 +142,7 @@ map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- Folds
-map("n", "<leader>f", "za", { desc = "Fold" })
+map("n", "<leader>f", "za", { remap = true, desc = "Fold" })
 
 -- Comment
 map("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
@@ -151,3 +150,15 @@ map("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
 
 -- Alpha
 map("n", "<leader>a", "<cmd>Alpha<cr>", { desc = "Dashboard" })
+
+-- Telescope
+map("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { remap = true, desc = "Buffers"})
+map("n", "<leader>sf", Util.telescope("files"), { remap = true,desc = "Find Files (root dir)"})
+map("n", "<leader>sr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent"})
+map("n", "<leader>sD", "<cmd>Telescope diagnostics bufnr=0<cr>", { desc = "Document diagnostics"})
+map("n", "<leader>sd", "<cmd>Telescope diagnostics<cr>", { desc = "Workspace diagnostics"})
+map("n", "<leader>st", Util.telescope("live_grep"), { desc = "Grep (root dir)"})
+map("n", "<leader>gr", "<cmd>Telescope lsp_references<cr>",{ desc = "References"})
+
+-- Nvimtree
+map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { remap = true, desc = "Nvimtree" })
