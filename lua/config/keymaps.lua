@@ -31,12 +31,8 @@ map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window wi
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
 -- Move Lines
-map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-map("v", "<J>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "<K>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("v", "<S-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "<S-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- buffers
 if Util.has("bufferline.nvim") then
@@ -52,6 +48,7 @@ else
 end
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+map("n", "<leader>w", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
@@ -67,13 +64,12 @@ map(
 
 map({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("n", "n", "nzzzv", { remap = true, desc = "Next search result" })
+map("x", "n", "nzzzv", { remap = true, desc = "Next search result" })
+map("o", "n", "nzzzv", { remap = true, desc = "Next search result" })
+map("n", "N", "Nzzzv", { remap = true, desc = "Prev search result" })
+map("x", "N", "Nzzzv", { remap = true, desc = "Prev search result" })
+map("o", "N", "Nzzzv", { remap = true, desc = "Prev search result" })
 
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
@@ -88,7 +84,9 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- lazy
-map("n", "<leader>l", "<cmd>:Lazy<cr>", { desc = "Lazy" })
+map("n", "<leader>ll", "<cmd>:Lazy<cr>", { desc = "Lazy" })
+map("n", "<leader>li", "<cmd>LspInfo<cr>")
+map("n", "<leader>lr", "<cmd>LspRestart<cr>")
 
 -- new file
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
@@ -105,8 +103,7 @@ end
 
 -- toggle options
 map("n", "<leader>rf", require("lazyvim.plugins.lsp.format").toggle, { desc = "Toggle format on Save" })
-map("n", "<leader>rs", function() Util.toggle("spell") end, { desc = "Toggle Spelling" })
-map("n", "<leader>rw", function() Util.toggle("wrap") end, { desc = "Toggle Word Wrap" })
+map("n", "<leader>rs", function() Util.toggle("spell") end, { desc = "Toggle Spelling" }) map("n", "<leader>rw", function() Util.toggle("wrap") end, { desc = "Toggle Word Wrap" })
 map("n", "<leader>rl", function() Util.toggle("relativenumber", true) Util.toggle("number") end, { desc = "Toggle Line Numbers" })
 map("n", "<leader>rd", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
 local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
@@ -144,3 +141,13 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- Folds
+map("n", "<leader>f", "za", { desc = "Fold" })
+
+-- Comment
+map("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
+
+-- Alpha
+map("n", "<leader>a", "<cmd>Alpha<cr>", { desc = "Dashboard" })
