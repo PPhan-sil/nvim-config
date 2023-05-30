@@ -114,8 +114,8 @@ map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
 
 -- Comment
-map("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
-map("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
+vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
+vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
 
 -- Folds
 map("n", "<leader>f", "za", { remap = true, desc = "Fold" })
