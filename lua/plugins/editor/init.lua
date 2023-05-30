@@ -133,18 +133,6 @@ return {
 		opts = conf.betterEscape(),
 	},
 
-	-- Comment
-	{
-		"numToStr/Comment.nvim",
-		event = "UIEnter",
-		config = function()
-			require("Comment").setup()
-		end,
-		keys = {
-			{ "<leader>/", "gcc", desc = "Comment" },
-		},
-	},
-
 	-- Toggle Term
 	{
 		"akinsho/toggleterm.nvim",
