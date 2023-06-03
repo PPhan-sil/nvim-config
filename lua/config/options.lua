@@ -37,7 +37,7 @@ opt.splitright = true -- Put new windows right of current
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = 500
-opt.ttimeoutlen = 500
+opt.ttimeoutlen = 0
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
@@ -51,7 +51,7 @@ opt.wildignore =
 	".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
 opt.smarttab = true
 opt.timeout = true
-opt.ttimeout = true
+-- opt.ttimeout = true
 opt.infercase = true
 opt.hlsearch = true
 opt.incsearch = true
