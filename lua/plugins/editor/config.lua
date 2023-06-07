@@ -200,10 +200,20 @@ function config.telescope()
 			selection_caret = " ",
 			layout_strategy = "horizontal",
 			path_display = { "absolute" },
-			file_ignore_patterns = { ".git/", ".cache", "%.class", "%.pdf", "%.mkv", "%.mp4", "%.zip", "node_modules/" },
+			file_ignore_patterns = {
+				".git/",
+				".cache",
+				"%.class",
+				"%.pdf",
+				"%.mkv",
+				"%.mp4",
+				"%.zip",
+				"node_modules/",
+			},
 			layout_config = {
 				horizontal = {
 					preview_width = 0.5,
+					preview_cutoff = 0,
 				},
 			},
 			mappings = {
@@ -243,10 +253,10 @@ function config.telescope()
 					end,
 				},
 			},
-			pickers = {
-				colorscheme = {
-					enable_preview = true,
-				},
+		},
+		pickers = {
+			colorscheme = {
+				enable_preview = true,
 			},
 		},
 	}
