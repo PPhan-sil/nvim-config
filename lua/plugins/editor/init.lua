@@ -37,6 +37,7 @@ return {
 			{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
 			{ "<leader>sD", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
 			{ "<leader>st", Util.telescope("live_grep"), desc = "Grep (root dir)" },
+			{ "<leader>sc", Util.telescope("colorscheme"), desc = "Colorscheme" },
 			{ "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
 		},
 		opts = conf.telescope(),
