@@ -12,4 +12,21 @@ function config.vimtex()
 	g.vimtex_quickfix_enabled = 0
 end
 
+function config.colorizer()
+	return function()
+		require("colorizer").setup({
+			"css",
+			"javascript",
+			css = {
+				css = true,
+				css_fn = true,
+			},
+			html = {
+				mode = "foreground",
+				names = false,
+			},
+		})
+	end
+end
+
 return config
