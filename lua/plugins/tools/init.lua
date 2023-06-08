@@ -4,7 +4,7 @@ return {
 	{
 		"iamcco/markdown-preview.nvim",
 		ft = "markdown",
-		opts = conf.markdown(),
+		config = conf.markdown(),
 	},
 	{
 		"lervag/vimtex",
