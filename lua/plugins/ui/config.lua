@@ -294,11 +294,17 @@ function config.indent_blankline()
 end
 
 function config.indentscope()
-	return {
-		-- symbol = "▏",
-		symbol = "│",
-		options = { try_as_border = true },
-	}
+	return function(_, opts)
+		require("mini.indentscope").setup({
+			symbol = "│",
+			options = { try_as_border = true },
+			draw = {
+				animation = require("mini.indentscope").gen_animation.none(),
+				-- Symbol priority. Increase to display on top of more symbols.
+				priority = 2,
+			},
+		})
+	end
 end
 
 function config.noice()
