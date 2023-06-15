@@ -93,10 +93,17 @@ return {
 	},
 
 	-- indent guides for Neovim
+	-- {
+	-- 	"lukas-reineke/indent-blankline.nvim",
+	-- 	event = { "BufReadPost", "BufNewFile" },
+	-- 	opts = conf.indent_blankline(),
+	-- },
+	--
+	-- indent guides
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = conf.indent_blankline(),
+		"echasnovski/mini.indentscope",
+		version = "*",
+		opts = conf.indentscope(),
 	},
 
 	-- noicer ui
