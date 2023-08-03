@@ -101,6 +101,12 @@ map("n", "<leader>gG", function() Util.float_term({ "lazygit" }, {esc_esc = fals
 map({ "n", "t" }, "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
+-- windows
+-- map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
+-- map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+-- map("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
+-- map("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
+
 -- Nvimtree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 
