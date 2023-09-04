@@ -27,7 +27,7 @@ function config.cmp()
 			window = {
 				completion = {
 					border = border("Normal"),
-					max_width = 80,
+					max_width = 40,
 					max_height = 20,
 				},
 				documentation = {
@@ -39,7 +39,7 @@ function config.cmp()
 				format = function(entry, vim_item)
 					local kind = lspkind.cmp_format({
 						mode = "symbol_text",
-						maxwidth = 50,
+						maxwidth = 40,
 						-- symbol_map = vim.tbl_deep_extend("force", icons.kind, icons.type, icons.cmp),
 					})(entry, vim_item)
 					local strings = vim.split(kind.kind, "%s", { trimempty = true })
