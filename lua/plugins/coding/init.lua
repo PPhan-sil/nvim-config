@@ -36,6 +36,10 @@ return {
 			{ "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
 		},
 		opts = conf.cmp(),
+    -- config = function()
+    --   local cmp = require("cmp")
+    --   cmp.setup({})
+    -- end
 	},
 
 	-- auto pairs
