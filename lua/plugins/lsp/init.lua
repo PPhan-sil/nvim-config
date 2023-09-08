@@ -60,6 +60,11 @@ return {
       ---@type lspconfig.options
       servers = {
         tsserver = {
+          init_options = {
+            preferences = {
+              disableSuggestions = true,
+            }
+          }
         },
         lua_ls = {
           -- mason = false, -- set to false if you don't want this server to be installed with mason
