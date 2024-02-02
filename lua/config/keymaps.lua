@@ -92,6 +92,7 @@ map("n", "<leader>rl", function() Util.toggle("relativenumber", true) Util.toggl
 map("n", "<leader>rd", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
 local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
 map("n", "<leader>rc", function() Util.toggle("conceallevel", false, {0, conceallevel}) end, { desc = "Toggle Conceal" })
+map("n", "<leader>rn", function() return require("obsidian").util.toggle_checkbox() end, { desc = "Toggle Checkbox"})
 
 -- lazygit
 map("n", "<leader>gg", function() Util.float_term({ "lazygit" }, { cwd = Util.get_root(), esc_esc = false }) end, { desc = "Lazygit (root dir)" })
