@@ -34,6 +34,9 @@ return {
         {
           name = "Academics",
           path = "~/Documents/Obsidian/Academics",
+          overrides = {
+            notes_subdir = "Notes",
+          },
         },
       },
 
