@@ -106,6 +106,8 @@ map("n", "<leader>ost", "<cmd>ObsidianTags<cr>", { desc = "Search Tags" })
 map("n", "<leader>osf", "<cmd>ObsidianSearch<cr>", { desc = "Search Text" })
 map("v", "<leader>ola", "<cmd>ObsidianLink<cr>", { desc = "Add Link" })
 map("v", "<leader>olc", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link" })
+map("n", "<leader>oc", function() Util.toggle("conceallevel", false, { 0, conceallevel }) end,
+  { desc = "Toggle Conceal" })
 
 -- lazygit
 map("n", "<leader>gg", function() Util.float_term({ "lazygit" }, { cwd = Util.get_root(), esc_esc = false }) end,
