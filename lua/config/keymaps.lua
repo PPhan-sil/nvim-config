@@ -112,6 +112,8 @@ map("n", "<leader>oc", function() Util.toggle("conceallevel", false, { 0, concea
 -- lazygit
 map("n", "<leader>gg", function() Util.float_term({ "lazygit" }, { cwd = Util.get_root(), esc_esc = false }) end,
   { desc = "Lazygit (root dir)" })
+map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Preview Hunk" })
+map("n", "<leader>gi", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Preview Hunk Inline" })
 map("n", "<leader>gG", function() Util.float_term({ "lazygit" }, { esc_esc = false }) end, { desc = "Lazygit (cwd)" })
 
 -- floating terminal
