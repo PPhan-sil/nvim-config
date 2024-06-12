@@ -117,7 +117,8 @@ map("n", "<leader>gi", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Previe
 map("n", "<leader>gG", function() Util.float_term({ "lazygit" }, { esc_esc = false }) end, { desc = "Lazygit (cwd)" })
 
 -- floating terminal
-map({ "n", "t" }, "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
+map("n", "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
+map("t", "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- windows
