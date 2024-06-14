@@ -121,6 +121,9 @@ map("n", "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal"
 map("t", "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
+-- Yazi (file manager)
+map("n", "<leader>fm", "<cmd>Yazi<CR>", { desc = "Toggle Yazi" })
+
 -- windows
 -- map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
 -- map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
