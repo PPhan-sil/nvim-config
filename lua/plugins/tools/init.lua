@@ -2,6 +2,13 @@ local conf = require("plugins.tools.config")
 
 return {
   {
+    "DreamMaoMao/yazi.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+  },
+  {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
     config = conf.markdown(),

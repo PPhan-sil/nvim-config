@@ -34,7 +34,6 @@ function config.nvimtree()
         number = false,
         relativenumber = false,
         signcolumn = "yes",
-        hide_root_folder = false,
         float = {
           enable = true,
           open_win_config = {

@@ -93,7 +93,7 @@ map("n", "<leader>rl", function()
   Util.toggle("number")
 end, { desc = "Toggle Line Numbers" })
 map("n", "<leader>rd", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
-local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
+local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 2
 map("n", "<leader>rc", function() Util.toggle("conceallevel", false, { 0, conceallevel }) end,
   { desc = "Toggle Conceal" })
 
@@ -112,11 +112,17 @@ map("n", "<leader>oc", function() Util.toggle("conceallevel", false, { 0, concea
 -- lazygit
 map("n", "<leader>gg", function() Util.float_term({ "lazygit" }, { cwd = Util.get_root(), esc_esc = false }) end,
   { desc = "Lazygit (root dir)" })
+map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Preview Hunk" })
+map("n", "<leader>gi", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Preview Hunk Inline" })
 map("n", "<leader>gG", function() Util.float_term({ "lazygit" }, { esc_esc = false }) end, { desc = "Lazygit (cwd)" })
 
 -- floating terminal
-map({ "n", "t" }, "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
+map("n", "<leader>t", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
+map("t", "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+
+-- Yazi (file manager)
+map("n", "<leader>fm", "<cmd>Yazi<CR>", { desc = "Toggle Yazi" })
 
 -- windows
 -- map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
