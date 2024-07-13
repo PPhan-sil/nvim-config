@@ -61,5 +61,4 @@
   "vim-startuptime": { "branch": "master", "commit": "ac2cccb5be617672add1f4f3c0a55ce99ba34e01" },
   "which-key.nvim": { "branch": "main", "commit": "0099511294f16b81c696004fa6a403b0ae61f7a0" },
   "yazi.nvim": { "branch": "master", "commit": "0e7dce1a936b92099180ff80cbf35eb7e8a5f660" },
-  "zen-mode.nvim": { "branch": "main", "commit": "78557d972b4bfbb7488e17b5703d25164ae64e6a" }
-}
+  "zen-mode.nvim": { "branch": "main", "commit": "e7e5563d736900679d147e1e6bbdc64d6ecbba3f" }
