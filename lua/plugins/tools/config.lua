@@ -9,6 +9,7 @@ end
 function config.vimtex()
   local g = vim.g
   g.vimtex_view_method = "zathura"
+  g.vimtex_syntax_enabled = 0
 end
 
 function config.colorizer()

@@ -13,11 +13,11 @@ return {
     ft = "markdown",
     config = conf.markdown(),
   },
-  {
-    "lervag/vimtex",
-    ft = "tex",
-    opts = conf.vimtex(),
-  },
+  -- {
+  --   "lervag/vimtex",
+  --   ft = "tex",
+  --   opts = conf.vimtex(),
+  -- },
   {
     "norcalli/nvim-colorizer.lua",
     -- ft = "tex",
