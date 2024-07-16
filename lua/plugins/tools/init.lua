@@ -13,11 +13,11 @@ return {
     ft = "markdown",
     config = conf.markdown(),
   },
-  {
-    "lervag/vimtex",
-    ft = "tex",
-    opts = conf.vimtex(),
-  },
+  -- {
+  --   "lervag/vimtex",
+  --   ft = "tex",
+  --   opts = conf.vimtex(),
+  -- },
   {
     "norcalli/nvim-colorizer.lua",
     -- ft = "tex",
@@ -30,8 +30,8 @@ return {
     event = {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Obsidian/**.md",
-      "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Obsidian/**.md",
+      "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Vault/**.md",
+      "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Vault/**.md",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -40,14 +40,14 @@ return {
       workspaces = {
         {
           name = "Notes",
-          path = "~/Documents/Obsidian/Notes",
+          path = "~/Documents/Vault/Notes",
           overrides = {
             notes_subdir = "Notes",
           },
         },
         {
           name = "Academics",
-          path = "~/Documents/Obsidian/Academics",
+          path = "~/Documents/Vault/Academics",
           overrides = {
             notes_subdir = "Notes",
           },
@@ -66,13 +66,6 @@ return {
         -- Prefix image names with timestamp.
         return string.format(os.time(), "-%s")
       end,
-
-      backlinks = {
-        -- The default height of the backlinks location list.
-        height = 32,
-        -- Whether or not to wrap lines.
-        wrap = false,
-      },
 
       follow_url_func = function(url)
         -- Open the URL in the default web browser.
