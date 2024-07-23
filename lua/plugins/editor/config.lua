@@ -556,12 +556,12 @@ function config.mason()
   return function()
     return {
       ensure_installed = {
-        "texlab",
+        "astro-language-server",
+        "clangd",
         "black",
         "debugpy",
         "js-debug-adapter",
         "lua-language-server",
-        "prettier",
         "prettier",
         "pyright",
         "ruff",
