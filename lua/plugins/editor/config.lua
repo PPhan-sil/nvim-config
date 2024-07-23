@@ -2,13 +2,7 @@ local config = {}
 
 function config.nvimtree()
   return function()
-    local Icons = require("config").icons
-    local icons = {
-      diagnostics = Icons.diagnostics,
-      documents = Icons.documents,
-      git = Icons.git_alt,
-      ui = Icons.ui,
-    }
+    local Icons = LazyVim.config.icons
 
     -- local gwidth = vim.api.nvim_list_uis()[1].width
     local gheight = vim.api.nvim_list_uis()[1].height
@@ -77,29 +71,13 @@ function config.nvimtree()
           padding = " ",
           symlink_arrow = "  ",
           glyphs = {
-            default = icons.documents.Default, --
-            symlink = icons.documents.Symlink, --
-            bookmark = icons.ui.Bookmark,
             git = {
-              unstaged = icons.git.Unstaged,
-              staged = icons.git.Add,          --
-              unmerged = icons.git.Unmerged,
-              renamed = icons.git.Rename,      --
-              untracked = icons.git.Untracked, -- "ﲉ"
-              deleted = icons.git.Remove,      --
-              ignored = icons.git.Ignore,      --◌
+              unstaged = "󰄱",
+              staged = "󰱒",
             },
             folder = {
-              -- arrow_open = "",
-              -- arrow_closed = "",
-              arrow_open = "",
-              arrow_closed = "",
-              default = icons.ui.Folder,
-              open = icons.ui.FolderOpen,
-              empty = icons.ui.EmptyFolder,
-              empty_open = icons.ui.EmptyFolderOpen,
-              symlink = icons.ui.SymlinkFolder,
-              symlink_open = icons.ui.FolderOpen,
+              arrow_open = "",
+              arrow_closed = "",
             },
           },
         },
@@ -145,10 +123,10 @@ function config.nvimtree()
         show_on_dirs = true,
         debounce_delay = 50,
         icons = {
-          hint = icons.diagnostics.Hint_alt,
-          info = icons.diagnostics.Info_alt,
-          warning = icons.diagnostics.Warn_alt,
-          error = icons.diagnostics.Error_alt,
+          hint = Icons.diagnostics.Hint,
+          info = Icons.diagnostics.Info,
+          warning = Icons.diagnostics.Warn,
+          error = Icons.diagnostics.Error,
         },
       },
       filesystem_watchers = {
@@ -188,7 +166,19 @@ function config.nvimtree()
 end
 
 function config.telescope()
-  local Util = require("util")
+  local function find_command()
+    if 1 == vim.fn.executable("rg") then
+      return { "rg", "--files", "--color", "never", "-g", "!.git" }
+    elseif 1 == vim.fn.executable("fd") then
+      return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
+    elseif 1 == vim.fn.executable("fdfind") then
+      return { "fdfind", "--type", "f", "--color", "never", "-E", ".git" }
+    elseif 1 == vim.fn.executable("find") and vim.fn.has("win32") == 0 then
+      return { "find", ".", "-type", "f" }
+    elseif 1 == vim.fn.executable("where") then
+      return { "where", "/r", ".", "*" }
+    end
+  end
   return {
     defaults = {
       initial_mode = "insert",
@@ -215,6 +205,17 @@ function config.telescope()
           preview_cutoff = 0,
         },
       },
+      get_selection_window = function()
+        local wins = vim.api.nvim_list_wins()
+        table.insert(wins, 1, vim.api.nvim_get_current_win())
+        for _, win in ipairs(wins) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].buftype == "" then
+            return win
+          end
+        end
+        return 0
+      end,
       mappings = {
         i = {
           ["<c-t>"] = function(...)
@@ -226,12 +227,12 @@ function config.telescope()
           ["<a-i>"] = function()
             local action_state = require("telescope.actions.state")
             local line = action_state.get_current_line()
-            Util.telescope("find_files", { no_ignore = true, default_text = line })()
+            LazyVim.telescope("find_files", { no_ignore = true, default_text = line })()
           end,
           ["<a-h>"] = function()
             local action_state = require("telescope.actions.state")
             local line = action_state.get_current_line()
-            Util.telescope("find_files", { hidden = true, default_text = line })()
+            LazyVim.telescope("find_files", { hidden = true, default_text = line })()
           end,
           ["<C-Down>"] = function(...)
             return require("telescope.actions").cycle_history_next(...)
@@ -254,6 +255,10 @@ function config.telescope()
       },
     },
     pickers = {
+      find_files = {
+        find_command = find_command,
+        hidden = true,
+      },
       colorscheme = {
         enable_preview = true,
       },
@@ -275,57 +280,54 @@ function config.whichkey()
         g = false,
       },
     },
-    window = {
+    win = {
       border = "single",
-      position = "bottom",
-      margin = { 1, 0, 1, 0 },
       padding = { 1, 0, 1, 0 },
-      winblend = 0,
+      wo = {
+        winblend = 0,
+      },
     },
     layout = {
-      height = { min = 4, max = 8 },  -- min and max height of the columns
+      height = { min = 4, max = 8 }, -- min and max height of the columns
       width = { min = 20, max = 50 }, -- min and max width of the columns
-      spacing = 3,                    -- spacing between columns
-      align = "left",                 -- align columns left, center or right
+      spacing = 3, -- spacing between columns
+      align = "left", -- align columns left, center or right
     },
     show_help = false,
     show_keys = false,
-    defaults = {
+    spec = {
       mode = { "n", "v" },
-      g = { name = "Git" },
-      l = { name = "LSP" },
-      s = { name = "Search" },
-      r = { name = "Toggle" },
-      ["\\"] = { name = "Compile" },
-      -- ["g"] = { name = "+goto" },
-      -- ["gz"] = { name = "+surround" },
-      -- ["]"] = { name = "+next" },
-      -- ["["] = { name = "+prev" },
-      -- ["<leader><tab>"] = { name = "+tabs" },
-      -- ["<leader>b"] = { name = "+buffer" },
-      -- ["<leader>c"] = { name = "+code" },
-      -- ["<leader>f"] = { name = "+file/find" },
-      -- ["<leader>g"] = { name = "+git" },
-      -- ["<leader>gh"] = { name = "+hunks" },
-      -- ["<leader>q"] = { name = "+quit/session" },
-      -- ["<leader>s"] = { name = "+search" },
-      -- ["<leader>u"] = { name = "+ui" },
-      -- ["<leader>w"] = { name = "+windows" },
-      -- ["<leader>x"] = { name = "+diagnostics/quickfix" },
+      { "<leader>g", group = "Git" },
+      { "<leader>l", group = "LSP" },
+      { "<leader>o", group = "Obsidian" },
+      { "<leader>s", group = "Search" },
+      { "<leader>r", group = "Toggle" },
+      { "<leader>\\", group = "Compile" },
+      { "<leader>f", hidden = true },
+      { "<leader>u", hidden = true },
+      { "<leader>b", hidden = true },
+      { "<leader>w", hidden = true },
     },
   }
 end
 
 function config.gitsigns()
   return {
-    -- signs = {
-    -- 	add = { text = "🮇" },
-    -- 	change = { text = "🮇" },
-    -- 	delete = { text = "契" },
-    -- 	topdelete = { text = "契" },
-    -- 	changedelete = { text = "🮇" },
-    -- 	untracked = { text = "🮇" },
-    -- },
+    signs = {
+      add = { text = "▎" },
+      change = { text = "▎" },
+      delete = { text = "" },
+      topdelete = { text = "" },
+      changedelete = { text = "▎" },
+      untracked = { text = "▎" },
+    },
+    signs_staged = {
+      add = { text = "▎" },
+      change = { text = "▎" },
+      delete = { text = "" },
+      topdelete = { text = "" },
+      changedelete = { text = "▎" },
+    },
     signcolumn = true,
     numhl = false,
     linehl = false,
@@ -348,7 +350,11 @@ function config.illuminate()
         "treesitter",
         "regex",
       },
-      delay = 100,
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = { "lsp" },
+      },
       filetypes_denylist = {
         "alpha",
         "dashboard",
@@ -367,57 +373,52 @@ function config.illuminate()
 end
 
 function config.trouble()
-  local Icons = require("config").icons
-  local icons = {
-    ui = Icons.ui,
-    diagnostics = Icons.diagnostics,
-  }
+  local Icons = LazyVim.config.icons
   return function()
     require("trouble").setup({
-      position = "bottom",                -- position of the list can be: bottom, top, left, right
-      height = 10,                        -- height of the trouble list when position is top or bottom
-      width = 50,                         -- width of the list when position is left or right
-      icons = true,                       -- use devicons for filenames
-      mode = "document_diagnostics",      -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-      fold_open = icons.ui.ArrowOpen,     -- icon used for open folds
-      fold_closed = icons.ui.ArrowClosed, -- icon used for closed folds
-      group = true,                       -- group results by file
-      padding = true,                     -- add an extra new line on top of the list
+      position = "bottom", -- position of the list can be: bottom, top, left, right
+      height = 10, -- height of the trouble list when position is top or bottom
+      width = 50, -- width of the list when position is left or right
+      icons = true, -- use devicons for filenames
+      mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+      -- fold_open = Icons.ui.ArrowOpen, -- icon used for open folds
+      -- fold_closed = Icons.ui.ArrowClosed, -- icon used for closed folds
+      group = true, -- group results by file
+      padding = true, -- add an extra new line on top of the list
       action_keys = {
         -- key mappings for actions in the trouble list
         -- map to {} to remove a mapping, for example:
         -- close = {},
-        close = "q",                     -- close the list
-        cancel = "<esc>",                -- cancel the preview and get back to your last window / buffer / cursor
-        refresh = "r",                   -- manually refresh
-        jump = { "<cr>", "<tab>" },      -- jump to the diagnostic or open / close folds
-        open_split = { "<c-x>" },        -- open buffer in new split
-        open_vsplit = { "<c-v>" },       -- open buffer in new vsplit
-        open_tab = { "<c-t>" },          -- open buffer in new tab
-        jump_close = { "o" },            -- jump to the diagnostic and close the list
-        toggle_mode = "m",               -- toggle between "workspace" and "document" diagnostics mode
-        toggle_preview = "P",            -- toggle auto_preview
-        hover = "K",                     -- opens a small popup with the full multiline message
-        preview = "p",                   -- preview the diagnostic location
-        close_folds = { "zM", "zm" },    -- close all folds
-        open_folds = { "zR", "zr" },     -- open all folds
-        toggle_fold = { "zA", "za" },    -- toggle fold of current file
-        previous = "k",                  -- preview item
-        next = "j",                      -- next item
+        close = "q", -- close the list
+        cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+        refresh = "r", -- manually refresh
+        jump = { "<cr>", "<tab>" }, -- jump to the diagnostic or open / close folds
+        open_split = { "<c-x>" }, -- open buffer in new split
+        open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+        open_tab = { "<c-t>" }, -- open buffer in new tab
+        jump_close = { "o" }, -- jump to the diagnostic and close the list
+        toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+        toggle_preview = "P", -- toggle auto_preview
+        hover = "K", -- opens a small popup with the full multiline message
+        preview = "p", -- preview the diagnostic location
+        close_folds = { "zM", "zm" }, -- close all folds
+        open_folds = { "zR", "zr" }, -- open all folds
+        toggle_fold = { "zA", "za" }, -- toggle fold of current file
+        previous = "k", -- preview item
+        next = "j", -- next item
       },
-      indent_lines = true,               -- add an indent guide below the fold icons
-      auto_open = false,                 -- automatically open the list when you have diagnostics
-      auto_close = false,                -- automatically close the list when you have no diagnostics
-      auto_preview = true,               -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-      auto_fold = false,                 -- automatically fold a file trouble list at creation
+      indent_lines = true, -- add an indent guide below the fold icons
+      auto_open = false, -- automatically open the list when you have diagnostics
+      auto_close = false, -- automatically close the list when you have no diagnostics
+      auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
+      auto_fold = false, -- automatically fold a file trouble list at creation
       auto_jump = { "lsp_definitions" }, -- for the given modes, automatically jump if there is only a single result
       signs = {
         -- icons / text used for a diagnostic
-        error = icons.diagnostics.Error_alt,
-        warning = icons.diagnostics.Warning_alt,
-        hint = icons.diagnostics.Hint_alt,
-        information = icons.diagnostics.Information_alt,
-        other = icons.diagnostics.Question_alt,
+        error = Icons.diagnostics.Error,
+        warning = Icons.diagnostics.Warn,
+        hint = Icons.diagnostics.Hint,
+        information = Icons.diagnostics.Info,
       },
       use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
     })
@@ -439,14 +440,14 @@ function config.neoscroll()
         "zz",
         "zb",
       },
-      hide_cursor = false,         -- Hide cursor while scrolling
-      stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+      hide_cursor = false, -- Hide cursor while scrolling
+      stop_eof = true, -- Stop at <EOF> when scrolling downwards
       use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-      respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+      respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
       cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-      easing_function = "sine",    -- Default easing function
-      pre_hook = nil,              -- Function to run before the scrolling animation starts
-      post_hook = nil,             -- Function to run after the scrolling animation ends
+      easing_function = "quadratic", -- Default easing function
+      pre_hook = nil, -- Function to run before the scrolling animation starts
+      post_hook = nil, -- Function to run after the scrolling animation ends
     })
   end
 end
@@ -455,7 +456,8 @@ function config.zen()
   return function()
     require("zen-mode").setup({
       window = {
-        backdrop = 1,
+        backdrop = 0.95,
+        width = 120,
         height = 0.95,
         options = {
           signcolumn = "yes",
@@ -471,10 +473,16 @@ end
 function config.betterEscape()
   return function()
     require("better_escape").setup({
-      mapping = { "jk", "jj" },  -- a table with mappings to use
-      timeout = 500,             -- the time in which the keys must be hit in ms. Use option timeoutlen by default
-      clear_empty_lines = false, -- clear line after escaping if there is only whitespace
-      keys = "<Esc>",            -- keys used for escaping, if it is a function will use the result everytime
+      timeout = vim.o.timeoutlen,
+      default_mappings = true,
+      mappings = {
+        t = {
+          j = {
+            k = false,
+            j = false,
+          },
+        },
+      },
     })
   end
 end
@@ -497,16 +505,16 @@ function config.toggleterm()
         vim.api.nvim_set_option_value("foldexpr", "0", { scope = "local" })
       end,
       open_mapping = false, -- [[<c-\>]],
-      hide_numbers = true,  -- hide the number column in toggleterm buffers
+      hide_numbers = true, -- hide the number column in toggleterm buffers
       shade_filetypes = {},
       shade_terminals = false,
-      shading_factor = "1",   -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+      shading_factor = "1", -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
       start_in_insert = true,
       insert_mappings = true, -- whether or not the open mapping applies in insert mode
       persist_size = true,
       direction = "horizontal",
       close_on_exit = true, -- close the terminal window when the process exits
-      shell = vim.o.shell,  -- change the default shell
+      shell = vim.o.shell, -- change the default shell
     })
   end
 end
@@ -519,7 +527,7 @@ function config.statuscol()
       relculright = true,
       segments = {
         { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-        { text = { "%s" },             click = "v:lua.ScSa" },
+        { text = { "%s" }, click = "v:lua.ScSa" },
         {
           text = { builtin.foldfunc, " " },
           condition = { true, builtin.not_empty },
@@ -534,10 +542,39 @@ function config.ufo()
   return function()
     require("ufo").setup({
       open_fold_hl_timeout = 0,
+      close_fold_kinds_for_ft = { default = {} },
+      enable_get_fold_virt_text = false,
+      preview = {},
       provider_selector = function(bufnr, filetype, buftype)
         return { "treesitter", "indent" }
       end,
     })
+  end
+end
+
+function config.mason()
+  return function()
+    return {
+      ensure_installed = {
+        "texlab",
+        "black",
+        "debugpy",
+        "js-debug-adapter",
+        "lua-language-server",
+        "prettier",
+        "prettier",
+        "pyright",
+        "ruff",
+        "shfmt",
+        "stylua",
+        "tailwindcss-language-server",
+        "texlab",
+        "vtsls",
+      },
+      ui = {
+        border = "rounded",
+      },
+    }
   end
 end
 
