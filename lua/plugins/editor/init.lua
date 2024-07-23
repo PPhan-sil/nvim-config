@@ -1,10 +1,10 @@
 local conf = require("plugins.editor.config")
-local Util = require("util")
 
 return {
   -- file explorer
   {
     "kyazdani42/nvim-tree.lua",
+    event = "VeryLazy",
     cmd = {
       "NvimTreeToggle",
       "NvimTreeOpen",
@@ -20,27 +20,83 @@ return {
     "nvim-pack/nvim-spectre",
     -- stylua: ignore
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+      { "<leader>sr", false}, -- Replace in files (Spectre)
     },
   },
 
   -- fuzzy finder
   {
     "nvim-telescope/telescope.nvim",
-    commit = vim.fn.has("nvim-0.9.0") == 0 and "057ee0f8783" or nil,
-    cmd = "Telescope",
-    version = false, -- telescope did only one release, so use HEAD for now
     keys = {
-      { "<leader>sb", "<cmd>Telescope buffers<cr>",             desc = "Buffers" },
-      { "<leader>sf", Util.telescope("files"),                  desc = "Find Files" },
-      { "<leader>sr", "<cmd>Telescope oldfiles<cr>",            desc = "Recent" },
-      { "<leader>sd", "<cmd>Telescope diagnostics<cr>",         desc = "Workspace diagnostics" },
+      { "<leader>sb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      { "<leader>sf", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+      { "<leader>sF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+      { "<leader>sg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
+      { "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+      { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
       { "<leader>sD", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
-      { "<leader>st", Util.telescope("live_grep"),              desc = "Grep (root dir)" },
-      { "<leader>sc", Util.telescope("colorscheme"),            desc = "Colorscheme" },
-      { "<leader>gr", "<cmd>Telescope lsp_references<cr>",      desc = "References" },
+      { "<leader>st", LazyVim.pick("live_grep"), desc = "Grep (root dir)" },
+      { "<leader>sc", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme" },
+      { "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
+
+      { "<leader>,", false }, -- Switch Buffer
+      { "<leader>/", false }, -- Grep (Root Dir)
+      { "<leader>:", false }, -- Command History
+      { "<leader>s:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+      { "<leader><space>", false }, -- Find Files (Root Dir)
+      -- find
+      { "<leader>fb", false }, --Buffers
+      { "<leader>fc", false }, -- Find Config File
+      { "<leader>ff", false }, -- Find Files (Root Dir)
+      { "<leader>fF", false }, -- Find Files (cwd)
+      { "<leader>fg", false }, --Find Files (git-files)
+      { "<leader>fr", false }, -- Recent
+      { "<leader>fR", false }, -- Recent (cwd)
+      -- git
+      { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
+      { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
+      -- search
+      { '<leader>s"', false }, -- Registers
+      { "<leader>sa", false }, -- Auto Commands
+      -- { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
+      -- { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+      { "<leader>sC", false }, -- Commands
+      -- { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document Diagnostics" },
+      -- { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
+      -- { "<leader>sg", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>sG", false }, -- Grep (cwd)
+      { "<leader>sH", false }, -- Search Highlight Groups
+      { "<leader>sj", false }, -- Jumplist
+      { "<leader>sh", false }, -- Help Pages
+      { "<leader>sk", false }, -- Key Maps
+      { "<leader>sl", false }, -- Location List
+      { "<leader>sM", false }, -- Man Pages
+      { "<leader>sm", false }, -- Jump to Mark
+      { "<leader>so", false }, -- Options
+      { "<leader>sR", false }, -- Resume
+      { "<leader>sq", false }, -- Quickfix List
+      { "<leader>sw", false }, -- Word (Root Dir)
+      { "<leader>sW", false }, -- Word (cwd)
+      { "<leader>sw", false }, -- Selection (Root Dir)
+      { "<leader>sW", false }, -- Selection (cwd)
+      { "<leader>uC", false }, -- Colorscheme with Preview
+      { "<leader>ss", false }, -- Goto Symbol
+      { "<leader>sS", false }, -- Goto Symbol (Workspace)
     },
     opts = conf.telescope(),
+  },
+
+  -- todo-comments
+  {
+    "folke/todo-comments.nvim",
+    keys = {
+      { "]t", false }, -- Next Todo Comment
+      { "[t", false }, -- Previous Todo Comment
+      { "<leader>xt", false }, -- Todo (Trouble)
+      { "<leader>xT", false }, -- Todo/Fix/Fixme (Trouble)
+      { "<leader>st", false }, -- Todo
+      { "<leader>sT", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+    },
   },
 
   -- which-key
@@ -48,10 +104,19 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = conf.whichkey(),
+    keys = {
+      { "<leader>?", false }, -- Buffer Keymaps (which-key)
+      { "<leader>w<space>", false }, -- Buffer Keymaps (which-key)
+      { "<leader>wd", false }, -- Buffer Keymaps (which-key)
+      { "<leader>wD", false }, -- Buffer Keymaps (which-key)
+    },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
-      wk.register(opts.defaults, { prefix = "<leader>" })
+      if not vim.tbl_isempty(opts.defaults) then
+        LazyVim.warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
+        wk.add(opts.defaults)
+      end
     end,
   },
 
@@ -69,47 +134,20 @@ return {
     config = conf.illuminate(),
   },
 
-  -- buffer remove
-  {
-    "echasnovski/mini.bufremove",
-    -- stylua: ignore
-    keys = {
-      { "<leader>w", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-    },
-  },
-
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
     opts = conf.trouble(),
     keys = {
-      { "<leader>lt", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-      -- 	{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-      -- 	{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-      -- 	{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
-      -- 	{
-      -- 		"[q",
-      -- 		function()
-      -- 			if require("trouble").is_open() then
-      -- 				require("trouble").previous({ skip_groups = true, jump = true })
-      -- 			else
-      -- 				vim.cmd.cprev()
-      -- 			end
-      -- 		end,
-      -- 		desc = "Previous trouble/quickfix item",
-      -- 	},
-      -- 	{
-      -- 		"]q",
-      -- 		function()
-      -- 			if require("trouble").is_open() then
-      -- 				require("trouble").next({ skip_groups = true, jump = true })
-      -- 			else
-      -- 				vim.cmd.cnext()
-      -- 			end
-      -- 		end,
-      -- 		desc = "Next trouble/quickfix item",
-      -- 	},
+      { "<leader>xx", false }, -- Diagnostics (Trouble)
+      { "<leader>xX", false }, -- Buffer Diagnostics (Trouble)
+      { "<leader>cs", false }, -- Symbols (Trouble)
+      { "<leader>cS", false }, -- LSP references/definitions/... (Trouble)
+      { "<leader>xL", false }, -- Location List (Trouble)
+      { "<leader>xQ", false }, -- Quickfix List (Trouble)
+      { "[q", false }, -- Previous Trouble/Quickfix Item
+      { "]q", false }, -- Next Trouble/Quickfix Item
     },
   },
 
@@ -150,5 +188,35 @@ return {
       { "luukvbaal/statuscol.nvim", config = conf.statuscol() },
     },
     config = conf.ufo(),
+  },
+
+  -- Mason
+  {
+    "williamboman/mason.nvim",
+    keys = {
+      { "<leader>cm", false }, -- Mason
+    },
+    opts = conf.mason(),
+  },
+
+  -- Conform
+  {
+    "stevearc/conform.nvim",
+    keys = {
+      { "<leader>cF", false }, -- Format Injected Langs
+    },
+    opts = {
+      formatters_by_ft = {
+        ["python"] = { "black" },
+      },
+    },
+  },
+
+  -- auto pairs
+  {
+    "echasnovski/mini.pairs",
+    keys = {
+      { "<leader>up", false }, -- Toggle Auto Pairs
+    },
   },
 }

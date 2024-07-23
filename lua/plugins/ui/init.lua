@@ -4,7 +4,7 @@ return {
   -- tokyonight
   {
     "folke/tokyonight.nvim",
-    lazy = true,
+    event = "VeryLazy",
     opts = { style = "moon" },
   },
 
@@ -13,7 +13,7 @@ return {
     "catppuccin/nvim",
     lazy = true,
     name = "catppuccin",
-    opts = conf.catppuccin(),
+    config = conf.catppuccin(),
   },
 
   -- Nord
@@ -39,21 +39,21 @@ return {
   -- Better `vim.notify()`
   {
     "rcarriga/nvim-notify",
-    -- keys = {
-    -- 	{
-    -- 		"<leader>un",
-    -- 		function()
-    -- 			require("notify").dismiss({ silent = true, pending = true })
-    -- 		end,
-    -- 		desc = "Dismiss all Notifications",
-    -- 	},
-    -- },
+    keys = {
+      { "<leader>un", false }, -- Dismiss all Notifications
+      {
+        "<leader>qn",
+        function()
+          require("notify").dismiss({ silent = true, pending = true })
+        end,
+        desc = "Dismiss all Notifications",
+      },
+    },
     opts = conf.nvim_notify(),
     init = function()
       -- when noice is not enabled, install notify on VeryLazy
-      local Util = require("util")
-      if not Util.has("noice.nvim") then
-        Util.on_very_lazy(function()
+      if not LazyVim.has("noice.nvim") then
+        LazyVim.on_very_lazy(function()
           vim.notify = require("notify")
         end)
       end
@@ -64,6 +64,9 @@ return {
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    enabled = function()
+      return LazyVim.pick.want() == "telescope"
+    end,
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
@@ -82,7 +85,31 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
+    keys = {
+      { "<leader>bp", false }, -- Toggle Pin
+      { "<leader>bP", false }, -- Delete Non-Pinned Buffers
+      { "<leader>bo", false }, -- Delete Other Buffers
+      { "<leader>br", false }, -- Delete Buffers to the Right
+      { "<leader>bl", false }, -- Delete Buffers to the Left
+      { "<S-h>", false }, -- Prev Buffer
+      { "<S-l>", false }, -- Next Buffer
+      { "[b", false }, -- Prev Buffer
+      { "]b", false }, -- Next Buffer
+      { "[B", false }, -- Move buffer prev
+      { "]B", false }, -- Move buffer next
+    },
     opts = conf.bufferline(),
+    config = function(_, opts)
+      require("bufferline").setup(opts)
+      -- Fix bufferline when restoring a session
+      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+        callback = function()
+          vim.schedule(function()
+            pcall(nvim_bufferline)
+          end)
+        end,
+      })
+    end,
   },
 
   -- statusline
@@ -92,35 +119,55 @@ return {
     opts = conf.statusline(),
   },
 
-  -- indent guides for Neovim
-  -- {
-  -- 	"lukas-reineke/indent-blankline.nvim",
-  -- 	event = { "BufReadPost", "BufNewFile" },
-  -- 	opts = conf.indent_blankline(),
-  -- },
-  --
   -- indent guides
   {
     "echasnovski/mini.indentscope",
-    version = "*",
-    event = { "BufReadPre", "BufNewFile" },
+    version = false,
+    event = "LazyFile",
     config = conf.indentscope(),
     init = function()
+      -- Disable for certain filetypes
       vim.api.nvim_create_autocmd("FileType", {
         pattern = {
           "help",
           "alpha",
           "dashboard",
+          "dotooagenda",
+          "flutterToolsOutline",
+          "fugitive",
+          "git",
+          "gitcommit",
+          "help",
           "neo-tree",
+          "NvimTree",
+          "TelescopePrompt",
           "Trouble",
           "lazy",
+          "log",
+          "markdown",
           "mason",
           "notify",
+          "packer",
+          "peekaboo",
+          "startify",
+          "todoist",
           "toggleterm",
+          "txt",
           "lazyterm",
+          "vimwiki",
+          "vista",
+          "", -- for all buffers without a file type
         },
         callback = function()
           vim.b.miniindentscope_disable = true
+        end,
+      })
+      -- Disable for large files
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+        callback = function()
+          if vim.fn.getfsize(vim.fn.expand("%:p")) > vim.g.bigfile_size then
+            vim.b.miniindentscope_disable = true
+          end
         end,
       })
     end,
@@ -185,37 +232,19 @@ return {
           "i", "n", "s" }
       },
     },
+    config = function(_, opts)
+      if vim.o.filetype == "lazy" then
+        vim.cmd([[messages clear]])
+      end
+      require("noice").setup(opts)
+    end,
   },
 
   -- dashboard
   {
-    "goolord/alpha-nvim",
-    event = "VimEnter",
-    opts = conf.alpha(),
-    config = function(_, dashboard)
-      -- close Lazy and re-open when the dashboard is ready
-      if vim.o.filetype == "lazy" then
-        vim.cmd.close()
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "AlphaReady",
-          callback = function()
-            require("lazy").show()
-          end,
-        })
-      end
-
-      require("alpha").setup(dashboard.opts)
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "LazyVimStarted",
-        callback = function()
-          local stats = require("lazy").stats()
-          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          dashboard.section.footer.val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
-          pcall(vim.cmd.AlphaRedraw)
-        end,
-      })
-    end,
+    "nvimdev/dashboard-nvim",
+    lazy = false,
+    opts = conf.dashboard(),
   },
 
   -- lsp symbol navigation for lualine
@@ -224,8 +253,8 @@ return {
     lazy = true,
     init = function()
       vim.g.navic_silence = true
-      require("util").on_attach(function(client, buffer)
-        if client.server_capabilities.documentSymbolProvider then
+      LazyVim.lsp.on_attach(function(client, buffer)
+        if client.supports_method("textDocument/documentSymbol") then
           require("nvim-navic").attach(client, buffer)
         end
       end)
@@ -237,16 +266,7 @@ return {
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- ui components
-  { "MunifTanjim/nui.nvim",        lazy = true },
-
-  -- neodim
-  -- {
-  --   "zbirenbaum/neodim",
-  --   event = "LspAttach",
-  --   config = function()
-  --     require("neodim").setup({})
-  --   end,
-  -- },
+  { "MunifTanjim/nui.nvim", lazy = true },
 
   -- Scrollbar
   {
@@ -255,5 +275,20 @@ return {
     config = function()
       require("scrollview").setup({})
     end,
+  },
+
+  -- Inline and cmp color previews
+  {
+    "brenoprata10/nvim-highlight-colors",
+    event = "VeryLazy",
+    config = conf.highlightColors(),
+  },
+
+  -- Outline
+  {
+    "hedyhli/outline.nvim",
+    keys = { { "<leader>m", "<cmd>Outline<cr>", desc = "Toggle Outline" } },
+    cmd = "Outline",
+    opts = conf.outline(),
   },
 }

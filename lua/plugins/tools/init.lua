@@ -11,17 +11,46 @@ return {
   {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
-    config = conf.markdown(),
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    config = function()
+      vim.cmd([[do FileType]])
+    end,
   },
-  -- {
-  --   "lervag/vimtex",
-  --   ft = "tex",
-  --   opts = conf.vimtex(),
-  -- },
   {
-    "norcalli/nvim-colorizer.lua",
-    -- ft = "tex",
-    config = conf.colorizer(),
+    "lukas-reineke/headlines.nvim",
+    opts = function()
+      local opts = {}
+      for _, ft in ipairs({ "markdown", "norg", "rmd", "org" }) do
+        opts[ft] = {
+          headline_highlights = {},
+          -- disable bullets for now. See https://github.com/lukas-reineke/headlines.nvim/issues/66
+          bullets = {},
+          quote_string = false,
+        }
+        for i = 1, 6 do
+          local hl = "Headline" .. i
+          vim.api.nvim_set_hl(0, hl, { link = "Headline", default = true })
+          table.insert(opts[ft].headline_highlights, hl)
+        end
+      end
+      return opts
+    end,
+    ft = { "markdown", "norg", "rmd", "org" },
+    config = function(_, opts)
+      -- PERF: schedule to prevent headlines slowing down opening a file
+      vim.schedule(function()
+        require("headlines").setup(opts)
+        require("headlines").refresh()
+      end)
+    end,
+  },
+  {
+    "lervag/vimtex",
+    lazy = false,
+    ft = "tex",
+    config = conf.vimtex(),
   },
   {
     "epwalsh/obsidian.nvim",
@@ -30,78 +59,14 @@ return {
     event = {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      "BufReadPre " .. vim.fn.expand "~" .. "/Documents/Vault/**.md",
-      "BufNewFile " .. vim.fn.expand "~" .. "/Documents/Vault/**.md",
+      "BufReadPre "
+        .. vim.fn.expand("~")
+        .. "/Documents/Vault/**.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Documents/Vault/**.md",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    opts = {
-      workspaces = {
-        {
-          name = "Notes",
-          path = "~/Documents/Vault/Notes",
-          overrides = {
-            notes_subdir = "Notes",
-          },
-        },
-        {
-          name = "Academics",
-          path = "~/Documents/Vault/Academics",
-          overrides = {
-            notes_subdir = "Notes",
-          },
-        },
-      },
-
-      templates = {
-        subdir = "Templates",
-        date_format = "%Y-%m-%d",
-        time_format = "%H:%M",
-        -- A map for custom variables, the key should be the variable and the value a function
-        substitutions = {},
-      },
-
-      image_name_func = function()
-        -- Prefix image names with timestamp.
-        return string.format(os.time(), "-%s")
-      end,
-
-      follow_url_func = function(url)
-        -- Open the URL in the default web browser.
-        vim.fn.jobstart({ "open", url })     -- Mac OS
-        vim.fn.jobstart({ "xdg-open", url }) -- linux
-      end,
-
-      note_frontmatter_func = function(note)
-        -- This is equivalent to the default frontmatter function.
-        local out = { id = note.id, aliases = note.aliases, tags = note.tags, created = os.date("%Y-%m-%d %H:%M") }
-        -- `note.metadata` contains any manually added fields in the frontmatter.
-        -- So here we just make sure those fields are kept in the frontmatter.
-        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-          for k, v in pairs(note.metadata) do
-            out[k] = v
-          end
-        end
-        return out
-      end,
-
-      note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        -- In this case a note with the title 'My new note' will be given an ID that looks
-        -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-        local suffix = ""
-        if title ~= nil then
-          -- If title is given, transform it into valid file name.
-          suffix = title:gsub(" ", "_"):gsub("[^A-Za-z0-9_]", "")
-        else
-          -- If title is nil, just add 4 random uppercase letters to the suffix.
-          for _ = 1, 4 do
-            suffix = suffix .. string.char(math.random(65, 90))
-          end
-        end
-        return tostring(os.time()) .. "-" .. suffix
-      end,
-    },
-  }
+    opts = conf.obsidian(),
+  },
 }
