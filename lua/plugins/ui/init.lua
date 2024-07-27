@@ -270,11 +270,9 @@ return {
 
   -- Scrollbar
   {
-    "dstein64/nvim-scrollview",
+    "petertriho/nvim-scrollbar",
     event = "BufReadPost",
-    config = function()
-      require("scrollview").setup({})
-    end,
+    config = conf.scroll(),
   },
 
   -- Inline and cmp color previews
