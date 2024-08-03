@@ -35,7 +35,7 @@ return {
       { "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
       { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
       { "<leader>sD", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
-      { "<leader>st", LazyVim.pick("live_grep"), desc = "Grep (root dir)" },
+      { "<leader>st", LazyVim.pick("live_grep", { root = false }), desc = "Grep" },
       { "<leader>sc", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme" },
       { "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
 
