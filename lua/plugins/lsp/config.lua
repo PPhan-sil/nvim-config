@@ -57,6 +57,13 @@ function config.lsp()
       timeout_ms = nil,
     },
     servers = {
+      ltex = {
+        autostart = false,
+        language = "en-US",
+        disabledRules = {
+          ["en-US"] = { "PROFANITY" },
+        },
+      },
       tsserver = {
         enabled = false,
       },
