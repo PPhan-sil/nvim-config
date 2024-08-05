@@ -156,8 +156,8 @@ map("n", "<leader>y", "<cmd>Yazi<CR>", { desc = "Toggle Yazi" })
 -- Nvimtree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 
--- Colorizer
-map("n", "<leader>rp", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer" })
+-- Highlight-colors
+map("n", "<leader>rp", "<cmd>HighlightColors toggle<cr>", { desc = "Highlight Colors" })
 
 -- ZenMode
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
