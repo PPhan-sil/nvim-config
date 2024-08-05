@@ -14,13 +14,13 @@ function config.obsidian()
     return {
       ui = { enabled = false },
       workspaces = {
-        {
-          name = "Notes",
-          path = "~/Sync/Vault/Notes",
-          overrides = {
-            notes_subdir = "Notes",
-          },
-        },
+        -- {
+        --   name = "Notes",
+        --   path = "~/Sync/Vault/Notes",
+        --   overrides = {
+        --     notes_subdir = "Notes",
+        --   },
+        -- },
         {
           name = "Notes",
           path = "~/Documents/Vault/Notes",
