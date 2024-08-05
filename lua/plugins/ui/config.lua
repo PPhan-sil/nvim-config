@@ -640,6 +640,7 @@ function config.markdown()
       width = "block",
     },
     bullet = {
+      right_pad = 1,
       icons = { "●", "◯", "◆", "◇" },
     },
   }
