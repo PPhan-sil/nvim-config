@@ -159,6 +159,9 @@ map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 -- Highlight-colors
 map("n", "<leader>rp", "<cmd>HighlightColors toggle<cr>", { desc = "Highlight Colors" })
 
+-- Markdown render
+map("n", "<leader>rm", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown Render" })
+
 -- ZenMode
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
 
