@@ -30,6 +30,8 @@ function config.catppuccin()
       custom_highlights = function(colors)
         return {
           Folded = { fg = "None", bg = colors.mantle },
+          CodeBlock = { bg = colors.mantle },
+          RenderMarkdownCode = { bg = colors.mantle },
         }
       end,
       integrations = {
@@ -612,6 +614,35 @@ function config.scroll()
       },
     })
   end
+end
+
+function config.markdown()
+  return {
+    max_file_size = 1.5,
+    debounce = 50,
+    anti_conceal = {
+      enabled = false,
+    },
+    latex = {
+      enabled = false,
+    },
+    heading = {
+      width = "block",
+      sign = false,
+      icons = { "", "", "", "", "", "" },
+      position = "inline",
+    },
+    code = {
+      sign = false,
+      style = "normal",
+      left_pad = 1,
+      right_pad = 8,
+      width = "block",
+    },
+    bullet = {
+      icons = { "●", "◯", "◆", "◇" },
+    },
+  }
 end
 
 return config

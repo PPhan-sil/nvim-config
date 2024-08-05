@@ -12,6 +12,7 @@ end
 function config.obsidian()
   return function()
     return {
+      ui = { enabled = false },
       workspaces = {
         {
           name = "Notes",

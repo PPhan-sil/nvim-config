@@ -289,4 +289,11 @@ return {
     cmd = "Outline",
     opts = conf.outline(),
   },
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    main = "render-markdown",
+    opts = conf.markdown(),
+    name = "render-markdown",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+  },
 }
