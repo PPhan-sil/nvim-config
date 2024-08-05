@@ -187,7 +187,6 @@ function config.telescope()
       results_title = false,
       prompt_prefix = " ",
       selection_caret = " ",
-      layout_strategy = "horizontal",
       path_display = { "absolute" },
       file_ignore_patterns = {
         ".git/",
@@ -199,9 +198,19 @@ function config.telescope()
         "%.zip",
         "node_modules/",
       },
+      layout_strategy = "flex",
       layout_config = {
+        width = 0.9,
+        height = 0.95,
+        flex = {
+          flip_columns = 150,
+        },
         horizontal = {
-          preview_width = 0.5,
+          preview_width = 0.65,
+          preview_cutoff = 0,
+        },
+        vertical = {
+          preview_height = 0.6,
           preview_cutoff = 0,
         },
       },
