@@ -483,12 +483,12 @@ function config.betterEscape()
   return function()
     require("better_escape").setup({
       timeout = vim.o.timeoutlen,
-      default_mappings = true,
+      default_mappings = false,
       mappings = {
-        t = {
+        i = {
           j = {
-            k = false,
-            j = false,
+            k = "<Esc>",
+            j = "<Esc>",
           },
         },
       },
