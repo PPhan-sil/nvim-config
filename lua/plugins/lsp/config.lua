@@ -57,11 +57,15 @@ function config.lsp()
       timeout_ms = nil,
     },
     servers = {
-      ltex = {
-        autostart = false,
-        language = "en-US",
-        disabledRules = {
-          ["en-US"] = { "PROFANITY" },
+      harper_ls = {
+        settings = {
+          ["harper-ls"] = {
+            userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+            linters = {
+              spell_check = true,
+              sentence_capitalization = false,
+            },
+          },
         },
       },
       tsserver = {
