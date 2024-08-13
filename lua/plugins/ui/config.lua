@@ -32,6 +32,7 @@ function config.catppuccin()
           Folded = { fg = "None", bg = colors.mantle },
           CodeBlock = { bg = colors.mantle },
           RenderMarkdownCode = { bg = colors.mantle },
+          RenderMarkdownCodeInline = { bg = colors.mantle },
         }
       end,
       integrations = {
