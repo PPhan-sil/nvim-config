@@ -619,6 +619,12 @@ end
 
 function config.markdown()
   return {
+    win_options = {
+      conceallevel = {
+        default = vim.api.nvim_get_option_value("conceallevel", {}),
+        rendered = 2,
+      },
+    },
     max_file_size = 1.5,
     debounce = 50,
     anti_conceal = {
@@ -641,6 +647,7 @@ function config.markdown()
       width = "block",
     },
     bullet = {
+      enabled = false,
       right_pad = 1,
       icons = { "●", "◯", "◆", "◇" },
     },
