@@ -58,6 +58,25 @@ function config.lsp()
     },
     servers = {
       harper_ls = {
+        autostart = false,
+        filetypes = {
+          "bib",
+          "gitcommit",
+          "markdown",
+          "org",
+          "plaintex",
+          "rst",
+          "rnoweb",
+          "tex",
+          "pandoc",
+          "quarto",
+          "rmd",
+          "context",
+          "html",
+          "xhtml",
+          "mail",
+          "text",
+        },
         settings = {
           ["harper-ls"] = {
             userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
