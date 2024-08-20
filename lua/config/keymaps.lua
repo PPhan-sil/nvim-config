@@ -65,6 +65,9 @@ map("v", ">", ">gv")
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Comment" })
 vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Comment" })
 
+-- format selection
+vim.keymap.set("v", "<leader>F", vim.lsp.buf.format, { remap = true, desc = "Format" })
+
 -- Folds
 map("n", "<leader>f", "za", { remap = true, desc = "Fold" })
 
