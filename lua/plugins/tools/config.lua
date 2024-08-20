@@ -28,13 +28,6 @@ function config.obsidian()
             notes_subdir = "Notes",
           },
         },
-        {
-          name = "Academics",
-          path = "~/Documents/Vault/Academics",
-          overrides = {
-            notes_subdir = "Notes",
-          },
-        },
       },
 
       templates = {
