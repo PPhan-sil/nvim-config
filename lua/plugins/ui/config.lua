@@ -651,6 +651,9 @@ function config.markdown()
       right_pad = 1,
       icons = { "●", "◯", "◆", "◇" },
     },
+    checkbox = {
+      enabled = false,
+    },
   }
 end
 
