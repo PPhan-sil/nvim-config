@@ -57,6 +57,7 @@ function config.lsp()
       timeout_ms = nil,
     },
     servers = {
+      astro = {},
       harper_ls = {
         autostart = false,
         filetypes = {
@@ -100,7 +101,6 @@ function config.lsp()
           "typescript",
           "typescriptreact",
           "typescript.tsx",
-          "astro",
           "svelte",
         },
         settings = {
