@@ -285,7 +285,7 @@ return {
   -- Outline
   {
     "hedyhli/outline.nvim",
-    keys = { { "<leader>m", "<cmd>Outline<cr>", desc = "Toggle Outline" } },
+    keys = { { "<leader>rm", "<cmd>Outline<cr>", desc = "Toggle Outline" } },
     cmd = "Outline",
     opts = conf.outline(),
   },

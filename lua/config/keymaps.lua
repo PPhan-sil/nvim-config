@@ -165,6 +165,7 @@ map("n", "<leader>rp", "<cmd>HighlightColors toggle<cr>", { desc = "Highlight Co
 
 -- Markdown render
 map("n", "<leader>rm", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown Render" })
+map("n", "<leader>rM", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown Render" })
 
 -- ZenMode
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
@@ -181,3 +182,4 @@ map("n", "<leader>\\r", "<cmd>make run<cr>", { desc = "Make & Run" })
 
 -- Markdown Preview
 map("n", "<leader>\\m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown" })
+
