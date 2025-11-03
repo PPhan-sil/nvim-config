@@ -36,16 +36,18 @@ else
   map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
   map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 end
-map("n", "<leader>w", LazyVim.ui.bufremove, { desc = "Delete Buffer" })
+map("n", "<leader>w", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
 
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zzzv'", { expr = true, desc = "Next Search Result" })
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
 map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
 map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zzzv'", { expr = true, desc = "Prev Search Result" })
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
@@ -97,18 +99,33 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- stylua: ignore start
 
 -- toggle options
-LazyVim.toggle.map("<leader>rf", LazyVim.toggle.format())
-LazyVim.toggle.map("<leader>rF", LazyVim.toggle.format(true))
-LazyVim.toggle.map("<leader>rs", LazyVim.toggle("spell", { name = "Spelling" }))
-LazyVim.toggle.map("<leader>rw", LazyVim.toggle("wrap", { name = "Wrap" }))
-LazyVim.toggle.map("<leader>rL", LazyVim.toggle("relativenumber", { name = "Relative Number" }))
-LazyVim.toggle.map("<leader>rd", LazyVim.toggle.diagnostics)
-LazyVim.toggle.map("<leader>rl", LazyVim.toggle.number)
-LazyVim.toggle.map( "<leader>rc", LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
-LazyVim.toggle.map("<leader>rt", LazyVim.toggle.treesitter)
-LazyVim.toggle.map("<leader>rb", LazyVim.toggle("background", { values = { "light", "dark" }, name = "Background" }))
+LazyVim.format.snacks_toggle():map("<leader>rf")
+LazyVim.format.snacks_toggle(true):map("<leader>rF")
+Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>rs")
+Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>rw")
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>rL")
+Snacks.toggle.diagnostics():map("<leader>rd")
+Snacks.toggle.line_number():map("<leader>rl")
+Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>rc")
+Snacks.toggle.treesitter():map("<leader>rt")
+Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background" }):map("<leader>rb")
+Snacks.toggle.dim():map("<leader>rD")
+Snacks.toggle.animate():map("<leader>ra")
+Snacks.toggle.indent():map("<leader>rg")
+Snacks.toggle.scroll():map("<leader>rS")
+-- Snacks.toggle.map("<leader>rf", LazyVim.toggle.format())
+-- LazyVim.toggle.map("<leader>rF", LazyVim.toggle.format(true))
+-- Snacks.toggle.map("<leader>rs", LazyVim.toggle.option("spell", { name = "Spelling" }))
+-- Snacks.toggle.map("<leader>rw", LazyVim.toggle.option("wrap", { name = "Wrap" }))
+-- Snacks.toggle.map("<leader>rL", LazyVim.toggle.option("relativenumber", { name = "Relative Number" }))
+-- LazyVim.toggle.map("<leader>rd", LazyVim.toggle.diagnostics)
+-- LazyVim.toggle.map("<leader>rl", LazyVim.toggle.number)
+-- LazyVim.toggle.map( "<leader>rc", LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
+-- LazyVim.toggle.map("<leader>rt", LazyVim.toggle.treesitter)
+-- LazyVim.toggle.map("<leader>rb", LazyVim.toggle("background", { values = { "light", "dark" }, name = "Background" }))
 if vim.lsp.inlay_hint then
-  LazyVim.toggle.map("<leader>rh", LazyVim.toggle.inlay_hints)
+  -- LazyVim.toggle.map("<leader>rh", LazyVim.toggle.inlay_hints)
+  Snacks.toggle.inlay_hints():map("<leader>rh")
 end
 
 -- obsidian
@@ -121,13 +138,16 @@ map("n", "<leader>ost", "<cmd>ObsidianSearch<cr>", { desc = "Search Text" })
 map("n", "<leader>osb", "<cmd>ObsidianBacklinks<cr>", { desc = "Search Backlinks" })
 map("v", "<leader>ola", "<cmd>ObsidianLink<cr>", { desc = "Add Link" })
 map("v", "<leader>olc", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link" })
-LazyVim.toggle.map( "<leader>oc", LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
+-- LazyVim.toggle.map( "<leader>oc", LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
+Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>oc")
 
 -- lazygit
-map("n", "<leader>gg", function() LazyVim.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
-map("n", "<leader>gG", function() LazyVim.lazygit() end, { desc = "Lazygit (cwd)" })
-map("n", "<leader>gb", LazyVim.lazygit.blame_line, { desc = "Git Blame Line" })
-map("n", "<leader>gB", LazyVim.lazygit.browse, { desc = "Git Browse" })
+map("n", "<leader>gg", function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
+map("n", "<leader>gG", function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
+-- map("n", "<leader>gb", LazyVim.lazygit.blame_line, { desc = "Git Blame Line" })
+map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
+-- map("n", "<leader>gB", LazyVim.lazygit.browse, { desc = "Git Browse" })
+map("n", "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
 map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Preview Hunk" })
 map("n", "<leader>gi", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Preview Hunk Inline" })
 
@@ -155,7 +175,7 @@ map("t", "<F4>", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- Yazi (file manager)
-map("n", "<leader>y", "<cmd>Yazi<CR>", { desc = "Toggle Yazi" })
+map("n", "<leader>y", "<cmd>Yazi<cr>", { desc = "Toggle Yazi" })
 
 -- Nvimtree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
@@ -164,7 +184,6 @@ map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Nvimtree" })
 map("n", "<leader>rp", "<cmd>HighlightColors toggle<cr>", { desc = "Highlight Colors" })
 
 -- Markdown render
-map("n", "<leader>rm", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown Render" })
 map("n", "<leader>rM", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown Render" })
 
 -- ZenMode
@@ -182,4 +201,3 @@ map("n", "<leader>\\r", "<cmd>make run<cr>", { desc = "Make & Run" })
 
 -- Markdown Preview
 map("n", "<leader>\\m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown" })
-
