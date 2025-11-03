@@ -5,7 +5,17 @@ function config.vimtex()
     vim.g.vimtex_mappings_disable = { ["n"] = { "K" } } -- disable `K` as it conflicts with LSP hover
     vim.g.vimtex_view_method = "zathura"
     vim.g.vimtex_quickfix_enabled = 0
+    -- vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
     vim.g.vimtex_syntax_enabled = 0
+    vim.g.vimtex_compiler_latexmk = {
+      options = {
+        -- "-verbose",
+        "-file-line-error",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-shell-escape",
+      },
+    }
   end
 end
 
@@ -23,15 +33,20 @@ function config.obsidian()
         -- },
         {
           name = "Notes",
-          path = "~/Documents/Vault/Notes",
+          path = "~/Documents/Vault/00 Notes",
           overrides = {
-            notes_subdir = "Notes",
+            notes_subdir = "00 Notes",
           },
         },
       },
+      --
+      -- Where to put new notes. Valid options are
+      --  * "current_dir" - put new notes in same directory as the current buffer.
+      --  * "notes_subdir" - put new notes in the default notes subdirectory.
+      new_notes_location = "notes_subdir",
 
       templates = {
-        subdir = "Templates",
+        subdir = "04 Templates",
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
         -- A map for custom variables, the key should be the variable and the value a function
