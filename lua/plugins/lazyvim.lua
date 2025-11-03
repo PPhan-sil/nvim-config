@@ -10,21 +10,21 @@ return {
   },
   -- Disable Plugins from LazyVim
   {
-    "folke/flash.nvim",
+    "folke/todo-comments.nvim",
     enabled = false,
   },
+  -- {
+  --   "folke/flash.nvim",
+  --   enabled = false,
+  -- },
   {
     "lukas-reineke/indent-blankline.nvim",
     enabled = false,
   },
-  {
-    "echasnovski/mini.ai",
-    enabled = false,
-  },
-  {
-    "echasnovski/mini.ai",
-    enabled = false,
-  },
+  -- {
+  --   "echasnovski/mini.ai",
+  --   enabled = false,
+  -- },
   {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,

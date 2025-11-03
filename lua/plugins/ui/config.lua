@@ -5,6 +5,10 @@ function config.catppuccin()
     require("catppuccin").setup({
       flavour = "macchiato",
       transparent_background = false,
+      float = {
+        transparent = false, -- enable transparent floating windows
+        solid = false, -- use solid styling for floating windows, see |winborder|
+      },
       ter_colors = true,
       dim_inactive = {
         enabled = true,
@@ -33,18 +37,47 @@ function config.catppuccin()
           CodeBlock = { bg = colors.mantle },
           RenderMarkdownCode = { bg = colors.mantle },
           RenderMarkdownCodeInline = { bg = colors.mantle },
+          LineNr = { fg = colors.lavender },
+          CursorLineNr = { fg = colors.yellow, bold = true },
         }
       end,
       integrations = {
+        aerial = true,
+        alpha = true,
         cmp = true,
+        dashboard = true,
+        flash = true,
+        fzf = true,
         gitsigns = true,
-        nvimtree = true,
-        telescope = true,
-        notify = true,
-        mason = true,
-        treesitter = true,
-        symbols_outline = true,
+        headlines = true,
         illuminate = true,
+        indent_blankline = true,
+        leap = true,
+        lsp_trouble = true,
+        mason = true,
+        markdown = true,
+        mini = true,
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
+        navic = true,
+        neotest = true,
+        neotree = true,
+        noice = true,
+        notify = true,
+        nvimtree = true,
+        semantic_tokens = true,
+        snacks = true,
+        telescope = true,
+        treesitter = true,
+        treesitter_context = true,
+        symbols_outline = true,
         which_key = true,
       },
     })
@@ -90,9 +123,9 @@ function config.bufferline()
       -- left_trunc_marker = icons.ui.Left,
       -- right_trunc_marker = icons.ui.Right,
       -- stylua: ignore
-      close_command = function(n) LazyVim.ui.bufremove(n) end,
+      close_command = function(n) Snacks.bufdelete(n) end,
       -- stylua: ignore
-      right_mouse_command = function(n) LazyVim.ui.bufremove(n) end,
+      right_mouse_command = function(n) Snacks.bufdelete(n) end,
       diagnostics = "nvim_lsp",
       always_show_bufferline = false,
       diagnostics_indicator = function(_, _, diag)
@@ -154,8 +187,8 @@ function config.statusline()
     local opts = {
       options = {
         theme = "auto",
-        globalstatus = true,
-        disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter" } },
+        globalstatus = vim.o.laststatus == 3,
+        disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
       },
       sections = {
         lualine_a = { "mode" },
@@ -189,25 +222,29 @@ function config.statusline()
           {
             function() return require("noice").api.status.command.get() end,
             cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-            color = LazyVim.ui.fg("Statement"),
+            -- color = LazyVim.ui.fg("Statement"),
+            color = {fg = Snacks.util.color("Statement")},
           },
           -- stylua: ignore
           {
             function() return require("noice").api.status.mode.get() end,
             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-            color = LazyVim.ui.fg("Constant"),
+            -- color = LazyVim.ui.fg("Constant"),
+            color = {fg = Snacks.util.color("Constant")},
           },
           -- stylua: ignore
           {
             function() return "  " .. require("dap").status() end,
             cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-            color = LazyVim.ui.fg("Debug"),
+            -- color = LazyVim.ui.fg("Debug"),
+            color = {fg = Snacks.util.color("Debug")},
           },
           -- stylua: ignore
           {
             require("lazy.status").updates,
             cond = require("lazy.status").has_updates,
-            color = function() return LazyVim.ui.fg("Special") end,
+            -- color = function() return LazyVim.ui.fg("Special") end,
+            color = {fg = Snacks.util.color("Special")},
           },
           {
             "diff",
@@ -240,7 +277,7 @@ function config.statusline()
           end,
         },
       },
-      extensions = { "neo-tree", "lazy" },
+      extensions = { "neo-tree", "lazy", "fzf" },
     }
     if not vim.g.trouble_lualine then
       table.insert(opts.sections.lualine_c, {
@@ -450,6 +487,19 @@ function config.outline()
       symbols = {
         icons = {},
         filter = vim.deepcopy(LazyVim.config.kind_filter),
+      },
+      symbol_folding = {
+        -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
+        autofold_depth = false,
+        -- When to auto unfold nodes
+        auto_unfold = {
+          -- Auto unfold currently hovered symbol
+          hovered = true,
+          -- Auto fold when the root level only has this many nodes.
+          -- Set true for 1 node, false for 0.
+          only = 10,
+        },
+        markers = { "", "" },
       },
       keymaps = {
         up_and_jump = "<up>",

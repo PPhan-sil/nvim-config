@@ -15,8 +15,13 @@ return {
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
+    cmd = { "Trouble" },
     opts = {
-      colorscheme = "gruvbox",
+      modes = {
+        lsp = {
+          win = { position = "right" },
+        },
+      },
     },
   },
 
@@ -180,7 +185,7 @@ return {
 
   -- add any tools you want to have installed below
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
         "stylua",

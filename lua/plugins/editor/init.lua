@@ -28,6 +28,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     keys = {
+      -- { "<leader>/", false },
       { "<leader>sb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
       { "<leader>sf", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       { "<leader>sF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
@@ -60,6 +61,7 @@ return {
       { "<leader>sa", false }, -- Auto Commands
       -- { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
       -- { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+      { "<leader>sc", false }, -- Commands
       { "<leader>sC", false }, -- Commands
       -- { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document Diagnostics" },
       -- { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
@@ -85,17 +87,11 @@ return {
     },
     opts = conf.telescope(),
   },
-
-  -- todo-comments
   {
-    "folke/todo-comments.nvim",
+    "ibhagwan/fzf-lua",
+    cmd = "FzfLua",
     keys = {
-      { "]t", false }, -- Next Todo Comment
-      { "[t", false }, -- Previous Todo Comment
-      { "<leader>xt", false }, -- Todo (Trouble)
-      { "<leader>xT", false }, -- Todo/Fix/Fixme (Trouble)
-      { "<leader>st", false }, -- Todo
-      { "<leader>sT", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+      { "<leader>sc", LazyVim.pick("colorschemes", { enable_preview = true }), desc = "Colorscheme" },
     },
   },
 
@@ -105,6 +101,7 @@ return {
     event = "VeryLazy",
     opts = conf.whichkey(),
     keys = {
+      -- TODO: Fix these conflicting binds
       { "<leader>?", false }, -- Buffer Keymaps (which-key)
       { "<leader>w<space>", false }, -- Buffer Keymaps (which-key)
       { "<leader>wd", false }, -- Buffer Keymaps (which-key)
@@ -152,11 +149,11 @@ return {
   },
 
   -- Smooth scroll
-  {
-    "karb94/neoscroll.nvim",
-    event = "BufReadPost",
-    opts = conf.neoscroll(),
-  },
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   event = "BufReadPost",
+  --   opts = conf.neoscroll(),
+  -- },
 
   -- Zen Mode
   {
@@ -192,7 +189,7 @@ return {
 
   -- Mason
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     keys = {
       { "<leader>cm", false }, -- Mason
     },
@@ -200,27 +197,54 @@ return {
   },
 
   -- Conform
-  {
-    "stevearc/conform.nvim",
-    keys = {
-      { "<leader>cF", false }, -- Format Injected Langs
-    },
-    opts = {
-      formatters_by_ft = {
-        ["python"] = { "black" },
-      },
-    },
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   keys = {
+  --     { "<leader>cF", false }, -- Format Injected Langs
+  --   },
+  --   opts = {
+  --     default_format_opts = {
+  --       timeout_ms = 3000,
+  --       async = false, -- not recommended to change
+  --       quiet = false, -- not recommended to change
+  --       lsp_format = "fallback", -- not recommended to change
+  --     },
+  --     formatters_by_ft = {
+  --       lua = { "stylua" },
+  --       ["python"] = { "black" },
+  --       sh = { "shfmt" },
+  --     },
+  --     formatters = {
+  --       injected = { options = { ignore_errors = true } },
+  --       black = {
+  --         prepend_args = { "--line-length", "120" },
+  --       },
+  --     },
+  --   },
+  -- },
 
   -- auto pairs
   {
-    "echasnovski/mini.pairs",
-    keys = {
-      { "<leader>up", false }, -- Toggle Auto Pairs
+    "nvim-mini/mini.pairs",
+    event = "VeryLazy",
+    opts = {
+      modes = { insert = true, command = true, terminal = false },
+      -- skip autopair when next character is one of these
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      -- skip autopair when the cursor is inside these treesitter nodes
+      skip_ts = { "string" },
+      -- skip autopair when next character is closing pair
+      -- and there are more closing pairs than opening pairs
+      skip_unbalanced = true,
+      -- better deal with markdown code blocks
+      markdown = true,
     },
+    config = function(_, opts)
+      LazyVim.mini.pairs(opts)
+    end,
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     recommended = true,
     keys = function(_, keys)
       -- Populate the keys based on the user's options
@@ -249,6 +273,63 @@ return {
         replace = "gsr", -- Replace surrounding
         update_n_lines = "gsn", -- Update `n_lines`
       },
+    },
+  },
+  {
+    "gbprod/yanky.nvim",
+    recommended = true,
+    desc = "Better Yank/Paste",
+    event = "LazyFile",
+    opts = {
+      highlight = { timer = 50 },
+      ring = {
+        history_length = 50,
+        storage = "shada",
+        storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db", -- Only for sqlite storage
+        sync_with_numbered_registers = true,
+        cancel_event = "update",
+        ignore_registers = { "_" },
+        update_register_on_cycle = false,
+        permanent_wrapper = nil,
+      },
+    },
+    keys = {
+      {
+        "<leader>p",
+        function()
+          if LazyVim.pick.picker.name == "telescope" then
+            require("telescope").extensions.yank_history.yank_history({})
+          else
+            vim.cmd([[YankyRingHistory]])
+          end
+        end,
+        mode = { "n", "x" },
+        desc = "Open Yank History",
+      },
+        -- stylua: ignore
+    { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank Text" },
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put Text After Cursor" },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put Text Before Cursor" },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put Text After Selection" },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put Text Before Selection" },
+      -- { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle Forward Through Yank History" },
+      -- { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle Backward Through Yank History" },
+      -- { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put Indented After Cursor (Linewise)" },
+      -- { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put Indented Before Cursor (Linewise)" },
+      -- { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put Indented After Cursor (Linewise)" },
+      -- { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put Indented Before Cursor (Linewise)" },
+      -- { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and Indent Right" },
+      -- { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and Indent Left" },
+      -- { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put Before and Indent Right" },
+      -- { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put Before and Indent Left" },
+      -- { "=p", "<Plug>(YankyPutAfterFilter)", desc = "Put After Applying a Filter" },
+      -- { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put Before Applying a Filter" },
+    },
+  },
+  {
+    "folke/snacks.nvim",
+    keys = {
+      { "<leader>/", false },
     },
   },
 }

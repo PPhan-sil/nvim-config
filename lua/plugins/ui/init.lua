@@ -64,9 +64,9 @@ return {
   {
     "stevearc/dressing.nvim",
     lazy = true,
-    enabled = function()
-      return LazyVim.pick.want() == "telescope"
-    end,
+    -- enabled = function()
+    --   return LazyVim.pick.want() == "telescope"
+    -- end,
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
@@ -85,31 +85,31 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
-    keys = {
-      { "<leader>bp", false }, -- Toggle Pin
-      { "<leader>bP", false }, -- Delete Non-Pinned Buffers
-      { "<leader>bo", false }, -- Delete Other Buffers
-      { "<leader>br", false }, -- Delete Buffers to the Right
-      { "<leader>bl", false }, -- Delete Buffers to the Left
-      { "<S-h>", false }, -- Prev Buffer
-      { "<S-l>", false }, -- Next Buffer
-      { "[b", false }, -- Prev Buffer
-      { "]b", false }, -- Next Buffer
-      { "[B", false }, -- Move buffer prev
-      { "]B", false }, -- Move buffer next
-    },
-    opts = conf.bufferline(),
-    config = function(_, opts)
-      require("bufferline").setup(opts)
-      -- Fix bufferline when restoring a session
-      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
-        callback = function()
-          vim.schedule(function()
-            pcall(nvim_bufferline)
-          end)
-        end,
-      })
-    end,
+    -- keys = {
+    --   { "<leader>bp", false }, -- Toggle Pin
+    --   { "<leader>bP", false }, -- Delete Non-Pinned Buffers
+    --   { "<leader>bo", false }, -- Delete Other Buffers
+    --   { "<leader>br", false }, -- Delete Buffers to the Right
+    --   { "<leader>bl", false }, -- Delete Buffers to the Left
+    --   { "<S-h>", false }, -- Prev Buffer
+    --   { "<S-l>", false }, -- Next Buffer
+    --   { "[b", false }, -- Prev Buffer
+    --   { "]b", false }, -- Next Buffer
+    --   { "[B", false }, -- Move buffer prev
+    --   { "]B", false }, -- Move buffer next
+    -- },
+    -- opts = conf.bufferline(),
+    -- config = function(_, opts)
+    --   require("bufferline").setup(opts)
+    --   -- Fix bufferline when restoring a session
+    --   vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+    --     callback = function()
+    --       vim.schedule(function()
+    --         pcall(nvim_bufferline)
+    --       end)
+    --     end,
+    --   })
+    -- end,
   },
 
   -- statusline
@@ -121,7 +121,7 @@ return {
 
   -- indent guides
   {
-    "echasnovski/mini.indentscope",
+    "nvim-mini/mini.indentscope",
     version = false,
     event = "LazyFile",
     config = conf.indentscope(),
@@ -253,13 +253,19 @@ return {
     lazy = true,
     init = function()
       vim.g.navic_silence = true
-      LazyVim.lsp.on_attach(function(client, buffer)
-        if client.supports_method("textDocument/documentSymbol") then
-          require("nvim-navic").attach(client, buffer)
-        end
-      end)
     end,
-    opts = conf.navic(),
+    opts = function()
+      Snacks.util.lsp.on({ method = "textDocument/documentSymbol" }, function(buffer, client)
+        require("nvim-navic").attach(client, buffer)
+      end)
+      return {
+        separator = " ",
+        highlight = true,
+        depth_limit = 5,
+        icons = LazyVim.config.icons.kinds,
+        lazy_update_context = true,
+      }
+    end,
   },
 
   -- icons
@@ -276,11 +282,11 @@ return {
   },
 
   -- Inline and cmp color previews
-  {
-    "brenoprata10/nvim-highlight-colors",
-    event = "VeryLazy",
-    config = conf.highlightColors(),
-  },
+  -- {
+  --   "brenoprata10/nvim-highlight-colors",
+  --   event = "VeryLazy",
+  --   config = conf.highlightColors(),
+  -- },
 
   -- Outline
   {
@@ -295,5 +301,133 @@ return {
     opts = conf.markdown(),
     name = "render-markdown",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+  },
+  {
+    "Isrothy/neominimap.nvim",
+    -- opts = conf.minimap(),
+    keys = {
+      { "<leader>rn", "<cmd>Neominimap BufToggle<cr>", desc = "Toggle minimap for current buffer" },
+      { "<leader>nf", "<cmd>Neominimap Focus<cr>", desc = "Focus on minimap" },
+      { "<leader>nu", "<cmd>Neominimap Unfocus<cr>", desc = "Unfocus minimap" },
+      { "<leader>ns", "<cmd>Neominimap ToggleFocus<cr>", desc = "Switch focus on minimap" },
+    },
+    init = function()
+      -- The following options are recommended when layout == "float"
+      vim.opt.wrap = false
+      vim.opt.sidescrolloff = 36 -- Set a large value
+
+      --- Put your configuration here
+      ---@type Neominimap.UserConfig
+      vim.g.neominimap = {
+        auto_enable = false,
+      }
+    end,
+  },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      indent = {
+        enabled = false,
+      },
+      dashboard = {
+        preset = {
+          header = [[
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣷⣄⠀⠀⠀⢀⢿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⣿⣿⣿⣿⣿⣷⣄⠀⡜⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢯⡉⠛⠲⠿⣿⣿⣿⣿⣿⣿⣿⡀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄⠀⠀⠀⠙⠻⣿⣿⣿⣿⣷⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⣦⡀⠀⢰⡆⠈⠙⢿⢿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣦⣤⣭⣬⣥⣀⣾⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣆⢮⣫⣦⠈⠉⠛⠁⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣷⣄⠀⠀⢸⣿⣿⣿⣿⣯⠛⢮⣻⡽⠀⠀⣠⣾⣿⠀⠀⠀⠀⠀⠀⢠⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⣿⣦⢸⣿⣿⣿⣿⣿⠀⠀⣨⣭⣥⣾⡿⠟⠉⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣄⡈⠙⠿⡿⢸⣿⣿⣿⣿⣿⣇⣤⣈⠛⠛⠉⢀⣤⣾⣿⠀⠀⠀⠀⠀⠘⣿⣿⢆⡇⣀⣠⣤⡄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⠗⣠⣾⡞⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣌⠻⠿⠋⣁⣤⠀⠀⠀⠀⠀⢻⠟⣾⠇⣿⡿⠋⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣝⠻⠛⠀⠀⠀⠀⠀⢀⣾⣿⠘⠋⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣟⢿⣿⣿⣿⣿⣮⣁⠀⠀⠀⣠⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⠋⢸⣿⢿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠈⠻⣿⣿⣿⣿⣷⣄⡺⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⡿⠁⠀⠸⠇⠀⠈⠛⢿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣦⡙⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⡟⠁⠀⠀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣷⡈⢻⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⠀⢻⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠙⠛⠿⣿⣶⡆⠲⢶⣶⣿⣿⣶⣶⢺⣿⣿⣧⠁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠀⠈⠉⠉⠀⠘⢿⣟⠟⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀
+⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠻⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀
+⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢢⠀
+⠀⡄⣿⢻⣿⣿⡟⣿⣿⣿⣿⠻⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⠇⣿⣿⣿⣿⡇⣿⣿⣿⡏⣿⣼⡆
+⢸⡇⣿⢸⣿⣿⣿⠸⣿⣿⣿⡇⠘⢿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠿⢿⠋⠀⢸⣿⣿⣿⡇⢿⣿⣿⡇⣿⡇⠀
+⠈⠃⣿⡼⣿⣿⣿⠀⢿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⠃⢸⣿⣿⠇⠿⠁⠀
+⠀⠀⠹⠇⢿⣿⣿⡆⠘⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠟⠀⠸⠿⠛⠀⠀⠀⠀
+       ]],
+        },
+      },
+    },
+  },
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    after = "catppuccin",
+    keys = {
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
+      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
+      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+    },
+    opts = {
+      options = {
+        indicator = {
+          -- icon = "▎",
+          -- style = "icon",
+          style = "underline",
+        },
+        separator_style = "thick",
+
+      -- stylua: ignore
+      close_command = function(n) Snacks.bufdelete(n) end,
+      -- stylua: ignore
+      right_mouse_command = function(n) Snacks.bufdelete(n) end,
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = false,
+        diagnostics_indicator = function(_, _, diag)
+          local icons = LazyVim.config.icons.diagnostics
+          local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+            .. (diag.warning and icons.Warn .. diag.warning or "")
+          return vim.trim(ret)
+        end,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "Neo-tree",
+            highlight = "Directory",
+            text_align = "left",
+          },
+          {
+            filetype = "snacks_layout_box",
+          },
+        },
+        ---@param opts bufferline.IconFetcherOpts
+        get_element_icon = function(opts)
+          return LazyVim.config.icons.ft[opts.filetype]
+        end,
+      },
+    },
+    config = function(_, opts)
+      require("bufferline").setup(opts)
+      -- Fix bufferline when restoring a session
+      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+        callback = function()
+          vim.schedule(function()
+            pcall(nvim_bufferline)
+          end)
+        end,
+      })
+    end,
   },
 }
