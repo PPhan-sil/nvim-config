@@ -92,6 +92,9 @@ return {
     cmd = "FzfLua",
     keys = {
       { "<leader>sc", LazyVim.pick("colorschemes", { enable_preview = true }), desc = "Colorscheme" },
+      { "<leader>ss", false }, -- Goto Symbol
+      { "<leader>sS", false }, -- Goto Symbol (Workspace)
+      { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
     },
   },
 
@@ -329,7 +332,62 @@ return {
   {
     "folke/snacks.nvim",
     keys = {
-      { "<leader>/", false },
+      { "<leader>/", "gcc", desc = "Comment line" },
     },
+  },
+  -- {
+  --   "nvim-mini/mini.snippets",
+  --   -- event = "InsertEnter", -- don't depend on other plugins to load...
+  --   dependencies = "rafamadriz/friendly-snippets",
+  --   opts = function()
+  --     ---@diagnostic disable-next-line: duplicate-set-field
+  --     LazyVim.cmp.actions.snippet_stop = function() end -- by design, <esc> should not stop the session!
+  --     ---@diagnostic disable-next-line: duplicate-set-field
+  --     LazyVim.cmp.actions.snippet_forward = function()
+  --       return jump("next")
+  --     end
+  --
+  --     local mini_snippets = require("mini.snippets")
+  --     return {
+  --       snippets = { mini_snippets.gen_loader.from_lang() },
+  --
+  --       -- Following the behavior of vim.snippets,
+  --       -- the intended usage of <esc> is to be able to temporarily exit into normal mode for quick edits.
+  --       --
+  --       -- If you'd rather stop the snippet on <esc>, activate the line below in your own config:
+  --       -- mappings = { stop = "<esc>" }, -- <c-c> by default, see :h MiniSnippets-session
+  --
+  --       expand = {
+  --         select = function(snippets, insert)
+  --           local select = expand_select_override or MiniSnippets.default_select
+  --           select(snippets, insert)
+  --         end,
+  --       },
+  --     }
+  --   end,
+  -- },
+  {
+    "L3MON4D3/LuaSnip",
+    lazy = true,
+    build = (not LazyVim.is_win())
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+      or nil,
+    dependencies = {
+      {
+        "rafamadriz/friendly-snippets",
+        config = function()
+          require("luasnip.loaders.from_vscode").lazy_load()
+          require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
+        end,
+      },
+    },
+    opts = {
+      history = true,
+      delete_check_events = "TextChanged",
+    },
+  },
+  {
+    "benfowler/telescope-luasnip.nvim",
+    lazy = true,
   },
 }
