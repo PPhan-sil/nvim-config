@@ -34,7 +34,7 @@ return {
       { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
       { "<leader>ds", function() require("dap").session() end, desc = "Session" },
       { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-      { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+      -- { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
     },
     config = conf.dap(),
   },
@@ -48,6 +48,9 @@ return {
   },
   {
     "theHamsta/nvim-dap-virtual-text",
+    keys = {
+      { "<leader>dv", "<cmd>:DapVirtualTextToggle<cr>", desc = "Toggle Dap Virtual Text" },
+    },
     opts = {},
   },
   {
@@ -57,8 +60,62 @@ return {
     keys = {
       { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
       { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+      {
+        "<leader>dh",
+        function()
+          require("dapui").eval()
+        end,
+        desc = "Hover/eval a single value",
+      },
     },
-    opts = {},
+    opts = {
+      expand_lines = false,
+      -- controls = { enabled = true },
+      floating = { border = "single" }, -- single/rounded
+      render = {
+        max_type_length = nil,
+        max_value_lines = 32,
+        indent = 2,
+      },
+      layouts = {
+        {
+          elements = {
+            {
+              id = "scopes",
+              size = 1.0,
+            },
+            -- {
+            --   id = "breakpoints",
+            --   size = 0.25,
+            -- },
+            -- {
+            --   id = "stacks",
+            --   size = 0.25,
+            -- },
+            -- {
+            --   id = "watches",
+            --   size = 0.25,
+            -- },
+          },
+          position = "left",
+          size = 80,
+        },
+        {
+          elements = {
+            {
+              id = "repl",
+              size = 0.4,
+            },
+            {
+              id = "console",
+              size = 0.6,
+            },
+          },
+          position = "bottom",
+          size = 15,
+        },
+      },
+    },
     config = conf.dapui(),
   },
   { "nvim-neotest/nvim-nio" },
