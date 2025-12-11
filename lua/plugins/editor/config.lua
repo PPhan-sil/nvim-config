@@ -523,7 +523,9 @@ function config.toggleterm()
       persist_size = true,
       direction = "horizontal",
       close_on_exit = true, -- close the terminal window when the process exits
+      clear_env = false, -- use only environmental variables from `env`, passed to jobstart()
       shell = vim.o.shell, -- change the default shell
+      auto_scroll = false, -- automatically scroll to the bottom on terminal output
     })
   end
 end
