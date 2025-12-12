@@ -31,6 +31,25 @@ function config.catppuccin()
         types = {},
         operators = { "bold" },
       },
+      lsp_styles = { -- Handles the style of specific lsp hl groups (see `:h lsp-highlight`).
+        virtual_text = {
+          errors = { "italic" },
+          hints = { "italic" },
+          warnings = { "italic" },
+          information = { "italic" },
+          ok = { "italic" },
+        },
+        underlines = {
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+          ok = { "undercurl" },
+        },
+        inlay_hints = {
+          background = true,
+        },
+      },
       custom_highlights = function(colors)
         return {
           Folded = { fg = "None", bg = colors.mantle },

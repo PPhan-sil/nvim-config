@@ -195,6 +195,7 @@ function config.lsp()
         init_options = {
           settings = {
             logLevel = "error",
+            lineLength = 220,
           },
         },
       },
