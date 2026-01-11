@@ -77,6 +77,7 @@ map("n", "<leader>f", "za", { remap = true, desc = "Fold" })
 map("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 map("n", "<leader>li", "<cmd>LspInfo<cr>")
 map("n", "<leader>ls", "<cmd>LspStart<cr>")
+map("n", "<leader>lx", "<cmd>LspStop<cr>")
 map("n", "<leader>lr", "<cmd>LspRestart<cr>")
 map("n", "<leader>lm", "<cmd>Mason<cr>")
 
