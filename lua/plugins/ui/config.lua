@@ -58,6 +58,7 @@ function config.catppuccin()
           RenderMarkdownCodeInline = { bg = colors.mantle },
           LineNr = { fg = colors.lavender },
           CursorLineNr = { fg = colors.yellow, bold = true },
+          WinSeparator = { fg = colors.yellow },
         }
       end,
       integrations = {
