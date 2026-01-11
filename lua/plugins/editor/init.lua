@@ -95,6 +95,8 @@ return {
       { "<leader>ss", false }, -- Goto Symbol
       { "<leader>sS", false }, -- Goto Symbol (Workspace)
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
+      { "<leader>sB", "<cmd>FzfLua lines<cr>", desc = "Buffer Lines" },
+      { "<leader>sb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
     },
   },
 
