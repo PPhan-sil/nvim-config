@@ -241,11 +241,11 @@ return {
   },
 
   -- dashboard
-  {
-    "nvimdev/dashboard-nvim",
-    lazy = false,
-    opts = conf.dashboard(),
-  },
+  -- {
+  --   "nvimdev/dashboard-nvim",
+  --   lazy = false,
+  --   opts = conf.dashboard(),
+  -- },
 
   -- lsp symbol navigation for lualine
   {
