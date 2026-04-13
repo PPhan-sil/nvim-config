@@ -2,7 +2,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-macchiato",
       defaults = {
         keymaps = false, -- Disable LazyVim keymaps
       },
