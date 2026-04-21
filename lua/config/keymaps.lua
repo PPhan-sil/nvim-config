@@ -131,15 +131,13 @@ end
 
 -- obsidian
 map("n", "<leader>ot", function() return require("obsidian").util.toggle_checkbox() end, { desc = "Toggle Checkbox" })
-map("n", "<leader>on", "<cmd>ObsidianNew<cr>", { desc = "New Note" })
-map("n", "<leader>oo", "<cmd>ObsidianOpen<cr>", { desc = "Open Obsidian" })
-map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Paste Image" })
-map("n", "<leader>osT", "<cmd>ObsidianTags<cr>", { desc = "Search Tags" })
-map("n", "<leader>ost", "<cmd>ObsidianSearch<cr>", { desc = "Search Text" })
-map("n", "<leader>osb", "<cmd>ObsidianBacklinks<cr>", { desc = "Search Backlinks" })
-map("n", "gd", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link" })
-map("v", "<leader>ola", "<cmd>ObsidianLink<cr>", { desc = "Add Link" })
-map("v", "<leader>olc", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link" })
+map("n", "<leader>on", "<cmd>Obsidian new<cr>", { desc = "New Note" })
+map("n", "<leader>oo", "<cmd>Obsidian open<cr>", { desc = "Open Obsidian" })
+map("n", "<leader>op", "<cmd>Obsidian paste_img<cr>", { desc = "Paste Image" })
+map("n", "<leader>osT", "<cmd>Obsidian tags<cr>", { desc = "Search Tags" })
+map("n", "<leader>ost", "<cmd>Obsidian search<cr>", { desc = "Search Text" })
+map("n", "<leader>osb", "<cmd>Obsidian backlinks<cr>", { desc = "Search Backlinks" })
+map("n", "gd", "<cmd>Obsidian follow_link<cr>", { desc = "Follow Link" })
 -- LazyVim.toggle.map( "<leader>oc", LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
 Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>oc")
 

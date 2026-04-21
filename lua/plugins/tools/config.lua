@@ -22,6 +22,7 @@ end
 function config.obsidian()
   return function()
     return {
+      legacy_commands = false,
       ui = { enabled = false },
       workspaces = {
         -- {
@@ -58,27 +59,21 @@ function config.obsidian()
         return string.format(os.time(), "-%s")
       end,
 
-      follow_url_func = function(url)
-        -- Open the URL in the default web browser.
-        if vim.fn.has("mac") == 1 then
-          vim.fn.jobstart({ "open", url }) -- Mac OS
-        elseif vim.fn.jobstart({ "xdg-open", url }) == 1 then
-          vim.fn.jobstart({ "xdg-open", url }) -- linux
-        end
-      end,
-
-      note_frontmatter_func = function(note)
-        -- This is equivalent to the default frontmatter function.
-        local out = { id = note.id, aliases = note.aliases, tags = note.tags, created = os.date("%Y-%m-%d %H:%M") }
-        -- `note.metadata` contains any manually added fields in the frontmatter.
-        -- So here we just make sure those fields are kept in the frontmatter.
-        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-          for k, v in pairs(note.metadata) do
-            out[k] = v
-          end
-        end
-        return out
-      end,
+      -- frontmatter = {
+      --   enabled = true,
+      --   func = function(note)
+      --     local out = { id = note.id, aliases = note.aliases, tags = note.tags, created = os.date("%Y-%m-%d %H:%M") }
+      --     -- `note.metadata` contains any manually added fields in the frontmatter.
+      --     -- So here we just make sure those fields are kept in the frontmatter.
+      --     if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+      --       for k, v in pairs(note.metadata) do
+      --         out[k] = v
+      --       end
+      --     end
+      --     return out
+      --   end,
+      --   sort = {"id", "aliases", "tags", "created"},
+      -- },
 
       note_id_func = function(title)
         -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
